@@ -20,8 +20,17 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+import Image from 'next/image'
+import logo from '@/assets/footilogo.svg'
+import x from '@/assets/x.svg'
+import telegram from '@/assets/telegram.svg'
+import whatsapp from '@/assets/whatsapp.svg'
+import instagram from '@/assets/instagram.svg'
+import image18 from '@/assets/18.svg'
+import gametherapy from '@/assets/gametherapy.svg'
+import gamecare from '@/assets/gamecare.svg'
+import player from '@/assets/loginPlayer.svg'
 
-// Schema de validação com Zod
 const loginSchema = z.object({
   email: z
     .string()
@@ -33,13 +42,11 @@ const loginSchema = z.object({
     .max(50, 'Senha muito longa'),
 })
 
-// Tipo inferido do schema
 type LoginFormValues = z.infer<typeof loginSchema>
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
-  // Inicialização do formulário com react-hook-form e zod
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -48,15 +55,11 @@ export default function Home() {
     },
   })
 
-  // Handler do submit com tipagem
   const onSubmit = async (data: LoginFormValues) => {
     try {
       setIsLoading(true)
-      // Simular chamada de API
       console.log('Form data:', data)
       await new Promise((resolve) => setTimeout(resolve, 1000))
-
-      // Aqui você adicionaria sua lógica de autenticação
     } catch (error) {
       console.error('Login error:', error)
     } finally {
@@ -65,12 +68,15 @@ export default function Home() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center">
-      <div className="w-full max-w-md">
+    <div className="flex flex-col min-h-screen items-center justify-center">
+      <div className="w-full mt-auto">
         <CardHeader>
-          <CardTitle className="text-2xl font-bold">Login</CardTitle>
-          <CardDescription>
-            Entre com suas credenciais para acessar sua conta
+          <CardTitle className="text-2xl flex justify-center font-bold">
+            <Image width={50} src={logo} alt="logo" />
+          </CardTitle>
+          <CardDescription className="text-center text-zinc-200">
+            Enjoy our recommendations for free and experience the power of Footi
+            AI
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -81,11 +87,11 @@ export default function Home() {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email</FormLabel>
+                    <FormLabel className="text-default">Email</FormLabel>
                     <FormControl>
                       <Input
                         type="email"
-                        placeholder="seu@email.com"
+                        placeholder="your@email.com"
                         {...field}
                       />
                     </FormControl>
@@ -99,11 +105,11 @@ export default function Home() {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Senha</FormLabel>
+                    <FormLabel className="text-default">Password</FormLabel>
                     <FormControl>
                       <Input
                         type="password"
-                        placeholder="Sua senha"
+                        placeholder="Your password"
                         {...field}
                       />
                     </FormControl>
@@ -112,21 +118,52 @@ export default function Home() {
                 )}
               />
 
-              <Button type="submit" className="w-full" disabled={isLoading}>
-                {isLoading ? 'Entrando...' : 'Entrar'}
+              <Button
+                type="submit"
+                className="w-full text-xl bg-default"
+                disabled={isLoading}
+              >
+                {isLoading ? 'Entrando...' : 'Sign in'}
               </Button>
             </form>
           </Form>
         </CardContent>
         <CardFooter className="flex justify-center">
-          <p className="text-sm text-gray-600">
-            Não tem uma conta?{' '}
-            <a href="/register" className="text-blue-600 hover:underline">
-              Registre-se
+          <p className="text-sm text-gray-200">
+            Dont have an account?{' '}
+            <a href="/register" className="text-default hover:underline">
+              Sing up
             </a>
           </p>
         </CardFooter>
       </div>
+      <div className="absolute bottom-0 right-0 pointer-events-none">
+        <Image src={player} width={250} alt="player" className="select-none" />
+      </div>
+
+      {/* Footer */}
+      <footer className="w-full mb-2 z-10 mt-auto">
+        <div className="flex flex-col gap-2">
+          <div className="text-sm">FOOTI™ 2025</div>
+          <div className="text-sm">Privacy Policy</div>
+          <div className="text-sm">Terms and conditions (T&Cs)</div>
+          <div className="flex gap-3">
+            <Image src={x} alt="twitter" />
+            <Image src={telegram} alt="telegran" />
+            <Image src={instagram} alt="instagram" />
+            <Image src={whatsapp} alt="whatsapp" />
+          </div>
+          <div className="text-[10px]">
+            Content on footi.ai is not intended for anybody under 18 years of
+            age.
+          </div>
+          <div className="flex justify-center gap-5">
+            <Image src={image18} alt="+18" />
+            <Image src={gametherapy} alt="gametherapy" />
+            <Image src={gamecare} alt="gamecare" />
+          </div>
+        </div>
+      </footer>
     </div>
   )
 }
