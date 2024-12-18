@@ -6,10 +6,18 @@ import { ThemeProvider } from '@/components/ui/theme-provider'
 import { Header } from '@/components/Header'
 import { usePathname } from 'next/navigation'
 import { HeaderTop } from '@/components/HeaderTop'
+import { AuthContextProvider } from '@/contexts/useAuth'
+import { QueryClientProvider } from 'react-query'
+import { queryClient } from '@/api/queryClient'
 
 const bai = Bai_Jamjuree({
   weight: '700',
   subsets: ['latin'],
+})
+const baiLight = Bai_Jamjuree({
+  weight: '200',
+  subsets: ['latin'],
+  variable: '--font-bai-light', // Variável CSS personalizada
 })
 
 export default function RootLayout({
@@ -21,22 +29,26 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${bai.className} antialiased bg-[#141414] max-w-[450px] mx-auto`}
+        className={`${bai.className} ${baiLight.variable} antialiased bg-[#141414] max-w-[450px] mx-auto`}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {pathname === '/' ||
-          pathname === '/register' ||
-          pathname === '/user' ? null : (
-            <HeaderTop />
-          )}
-          {children}
-          {pathname === '/' || pathname === '/register' ? null : <Header />}
-        </ThemeProvider>
+        <QueryClientProvider client={queryClient}>
+          <AuthContextProvider>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="dark"
+              enableSystem
+              disableTransitionOnChange
+            >
+              {pathname === '/' ||
+              pathname === '/register' ||
+              pathname === '/user' ? null : (
+                <HeaderTop />
+              )}
+              {children}
+              {pathname === '/' || pathname === '/register' ? null : <Header />}
+            </ThemeProvider>
+          </AuthContextProvider>
+        </QueryClientProvider>
       </body>
     </html>
   )
