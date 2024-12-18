@@ -26,16 +26,16 @@ export function HeaderTop({ activeTab, onTabChange }: HeaderTopProps) {
       </div>
 
       <Tabs value={activeTab} onValueChange={onTabChange} className="w-[120px]">
-        <TabsList className="grid w-full grid-cols-2 bg-zinc-800">
+        <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger
             value="today"
-            className="data-[state=active]:bg-default rounded-l-lg text-sm data-[state=active]:bg-opacity-40 data-[state=active]:text-default"
+            className="data-[state=active]:bg-default bg-[#333] rounded-l-lg text-sm data-[state=active]:bg-opacity-40 data-[state=active]:text-default"
           >
             Today
           </TabsTrigger>
           <TabsTrigger
             value="all"
-            className="data-[state=active]:bg-default rounded-r-lg text-sm data-[state=active]:bg-opacity-40 data-[state=active]:text-default"
+            className="data-[state=active]:bg-default bg-[#333] rounded-r-lg text-sm data-[state=active]:bg-opacity-40 data-[state=active]:text-default"
           >
             All
           </TabsTrigger>
