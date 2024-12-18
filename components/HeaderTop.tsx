@@ -9,8 +9,8 @@ import { DateRange } from 'react-day-picker'
 import { FaRegCalendarAlt } from 'react-icons/fa'
 
 interface HeaderTopProps {
-  activeTab: string
-  onTabChange: (tab: string) => void
+  activeTab?: string
+  onTabChange?: (tab: string) => void
 }
 
 export function HeaderTop({ activeTab, onTabChange }: HeaderTopProps) {
