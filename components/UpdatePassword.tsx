@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
@@ -20,8 +21,16 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { useState } from 'react'
-import { LucideLockKeyhole } from 'lucide-react'
+import { Eye, EyeOff, LucideLockKeyhole } from 'lucide-react'
+import { api } from '@/api/api'
+import { UserInterface } from '@/types/User'
+import { queryClient } from '@/api/queryClient'
+import { toast } from 'react-toastify'
+import { GiSoccerBall } from 'react-icons/gi'
 
+interface Props {
+  user: UserInterface | undefined
+}
 const formSchema = z
   .object({
     currentPassword: z.string().min(6, 'A senha atual é obrigatória'),
@@ -42,7 +51,11 @@ const formSchema = z
 
 type FormValues = z.infer<typeof formSchema>
 
-export function UpdatePassword() {
+export function UpdatePassword({ user }: Props) {
+  const [showOldPassword, setShowOldPassword] = useState(false)
+  const [showNewPassword, setShowNewPassword] = useState(false)
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+  const [loading, setLoading] = useState(false)
   const [open, setOpen] = useState(false)
 
   const form = useForm<FormValues>({
@@ -56,16 +69,29 @@ export function UpdatePassword() {
 
   async function onSubmit(data: FormValues) {
     try {
-      // Aqui você implementaria a lógica de atualização da senha
-      console.log(data)
-
-      // Limpa o formulário
+      setLoading(true)
+      await api.post('change-password/', {
+        user_email: user?.email,
+        old_password: data.currentPassword,
+        new_password: data.newPassword,
+      })
+      await queryClient.refetchQueries('getUser')
+      toast.success('password changed successfully', {
+        position: 'bottom-right',
+        theme: 'dark',
+        closeOnClick: true,
+      })
+      setLoading(false)
       form.reset()
-
-      // Fecha o dialog após sucesso
       setOpen(false)
-    } catch (error) {
-      console.error('Error updating password:', error)
+    } catch (error: any) {
+      setLoading(false)
+      toast.error(
+        error.response.data.detail
+          ? error.response.data.detail
+          : 'unexpected error',
+        { position: 'bottom-right', theme: 'dark', closeOnClick: true },
+      )
     }
   }
 
@@ -90,13 +116,26 @@ export function UpdatePassword() {
               name="currentPassword"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Old Password</FormLabel>
+                  <FormLabel>Senha Atual</FormLabel>
                   <FormControl>
-                    <Input
-                      className="bg-[#272927] border border-zinc-600 "
-                      type="password"
-                      {...field}
-                    />
+                    <div className="relative">
+                      <Input
+                        type={showOldPassword ? 'text' : 'password'}
+                        className="bg-[#272927] border border-zinc-600"
+                        {...field}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowOldPassword(!showOldPassword)}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-200"
+                      >
+                        {showOldPassword ? (
+                          <EyeOff size={18} />
+                        ) : (
+                          <Eye size={18} />
+                        )}
+                      </button>
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -108,13 +147,26 @@ export function UpdatePassword() {
               name="newPassword"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>New Password</FormLabel>
+                  <FormLabel>Nova Senha</FormLabel>
                   <FormControl>
-                    <Input
-                      className="bg-[#272927] border border-zinc-600 "
-                      type="password"
-                      {...field}
-                    />
+                    <div className="relative">
+                      <Input
+                        type={showNewPassword ? 'text' : 'password'}
+                        className="bg-[#272927] border border-zinc-600"
+                        {...field}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowNewPassword(!showNewPassword)}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-200"
+                      >
+                        {showNewPassword ? (
+                          <EyeOff size={18} />
+                        ) : (
+                          <Eye size={18} />
+                        )}
+                      </button>
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -126,25 +178,45 @@ export function UpdatePassword() {
               name="confirmPassword"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Confirm Password</FormLabel>
+                  <FormLabel>Confirmar Nova Senha</FormLabel>
                   <FormControl>
-                    <Input
-                      className="bg-[#272927] border border-zinc-600 "
-                      type="password"
-                      {...field}
-                    />
+                    <div className="relative">
+                      <Input
+                        type={showConfirmPassword ? 'text' : 'password'}
+                        className="bg-[#272927] border border-zinc-600"
+                        {...field}
+                      />
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setShowConfirmPassword(!showConfirmPassword)
+                        }
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-200"
+                      >
+                        {showConfirmPassword ? (
+                          <EyeOff size={18} />
+                        ) : (
+                          <Eye size={18} />
+                        )}
+                      </button>
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-
-            <Button
-              type="submit"
-              className="w-full bg-default hover:bg-default hover:bg-opacity-80"
-            >
-              Save
-            </Button>
+            {loading ? (
+              <div className="w-full bg-default flex justify-center py-0.5 text-black rounded-md hover:bg-default hover:bg-opacity-80">
+                <GiSoccerBall className="animate-spin" size={32} />
+              </div>
+            ) : (
+              <Button
+                type="submit"
+                className="w-full bg-default hover:bg-default hover:bg-opacity-80"
+              >
+                Save
+              </Button>
+            )}
           </form>
         </Form>
       </DialogContent>

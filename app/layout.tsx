@@ -9,6 +9,7 @@ import { HeaderTop } from '@/components/HeaderTop'
 import { AuthContextProvider } from '@/contexts/useAuth'
 import { QueryClientProvider } from 'react-query'
 import { queryClient } from '@/api/queryClient'
+import { ToastContainer } from 'react-toastify'
 
 const bai = Bai_Jamjuree({
   weight: '700',
@@ -47,6 +48,7 @@ export default function RootLayout({
               {children}
               {pathname === '/' || pathname === '/register' ? null : <Header />}
             </ThemeProvider>
+            <ToastContainer />
           </AuthContextProvider>
         </QueryClientProvider>
       </body>

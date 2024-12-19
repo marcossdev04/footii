@@ -1,6 +1,6 @@
 'use client'
 import { z } from 'zod'
-import React, { useState } from 'react'
+import React from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
@@ -30,6 +30,8 @@ import image18 from '@/assets/18.svg'
 import gametherapy from '@/assets/gametherapy.svg'
 import gamecare from '@/assets/gamecare.svg'
 import player from '@/assets/loginPlayer.svg'
+import { useAuth } from '@/contexts/useAuth'
+import { GiSoccerBall } from 'react-icons/gi'
 
 const loginSchema = z.object({
   email: z
@@ -45,7 +47,7 @@ const loginSchema = z.object({
 type LoginFormValues = z.infer<typeof loginSchema>
 
 export default function Home() {
-  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const { handleSignIn, isLoading } = useAuth()
 
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
@@ -56,20 +58,12 @@ export default function Home() {
   })
 
   const onSubmit = async (data: LoginFormValues) => {
-    try {
-      setIsLoading(true)
-      console.log('Form data:', data)
-      await new Promise((resolve) => setTimeout(resolve, 1000))
-    } catch (error) {
-      console.error('Login error:', error)
-    } finally {
-      setIsLoading(false)
-    }
+    handleSignIn(data)
   }
 
   return (
-    <div className="flex flex-col min-h-screen px-5 items-center justify-center">
-      <div className="w-full mt-auto">
+    <div className="flex flex-col min-h-[90vh] items-center justify-center px-5 gap-10">
+      <div className="w-full mt-12">
         <CardHeader>
           <CardTitle className="text-2xl flex justify-center font-bold">
             <Image width={50} src={logo} alt="logo" />
@@ -117,14 +111,19 @@ export default function Home() {
                   </FormItem>
                 )}
               />
-
-              <Button
-                type="submit"
-                className="w-full text-xl bg-default"
-                disabled={isLoading}
-              >
-                {isLoading ? 'Entrando...' : 'Sign in'}
-              </Button>
+              {isLoading ? (
+                <div className="flex bg-default justify-center items-center py-0.5 rounded-md">
+                  <GiSoccerBall className="animate-spin text-black" size={32} />
+                </div>
+              ) : (
+                <Button
+                  type="submit"
+                  className="w-full text-xl bg-default hover:bg-default/80"
+                  disabled={isLoading}
+                >
+                  Login
+                </Button>
+              )}
             </form>
           </Form>
         </CardContent>
@@ -142,7 +141,7 @@ export default function Home() {
       </div>
 
       {/* Footer */}
-      <footer className="w-full mb-2 z-10 mt-auto">
+      <footer className="w-full mb-2 z-10 ">
         <div className="flex flex-col gap-2">
           <div className="text-sm">FOOTI™ 2025</div>
           <div className="text-sm">Privacy Policy</div>
