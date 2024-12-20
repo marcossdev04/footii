@@ -25,17 +25,17 @@ export function HeaderTop({ activeTab, onTabChange }: HeaderTopProps) {
         <Image src={logo} width={30} alt="logo" />
       </div>
 
-      <Tabs value={activeTab} onValueChange={onTabChange} className="w-[120px]">
+      <Tabs value={activeTab} onValueChange={onTabChange} className="w-[100px]">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger
             value="today"
-            className="data-[state=active]:bg-default bg-[#333] rounded-l-lg text-sm data-[state=active]:bg-opacity-40 data-[state=active]:text-default"
+            className="data-[state=active]:bg-default bg-[#333] rounded-l-lg text-xs data-[state=active]:bg-opacity-10 data-[state=active]:text-default"
           >
             Today
           </TabsTrigger>
           <TabsTrigger
             value="all"
-            className="data-[state=active]:bg-default bg-[#333] rounded-r-lg text-sm data-[state=active]:bg-opacity-40 data-[state=active]:text-default"
+            className="data-[state=active]:bg-default bg-[#333] rounded-r-lg text-xs data-[state=active]:bg-opacity-10 data-[state=active]:text-default"
           >
             All
           </TabsTrigger>
@@ -44,7 +44,7 @@ export function HeaderTop({ activeTab, onTabChange }: HeaderTopProps) {
 
       <Popover>
         <PopoverTrigger asChild>
-          <div className="justify-start hover:bg-default hover:bg-opacity-40 cursor-pointer transition-colors duration-300 p-1.5 rounded-full text-left font-normal">
+          <div className="justify-start hover:bg-default hover:bg-opacity-10 cursor-pointer transition-colors duration-300 p-1.5 rounded-full text-left font-normal">
             <FaRegCalendarAlt className="text-default w-5 h-5" />
             {date?.from && (
               <span className="hidden lg:inline-block ml-2">

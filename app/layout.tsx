@@ -11,12 +11,8 @@ import { QueryClientProvider } from 'react-query'
 import { queryClient } from '@/api/queryClient'
 import { ToastContainer } from 'react-toastify'
 
-const bai = Bai_Jamjuree({
-  weight: '700',
-  subsets: ['latin'],
-})
 const baiLight = Bai_Jamjuree({
-  weight: '200',
+  weight: '600',
   subsets: ['latin'],
   variable: '--font-bai-light', // Variável CSS personalizada
 })
@@ -30,7 +26,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${bai.className} ${baiLight.variable} antialiased bg-[#141414] max-w-[450px] mx-auto`}
+        className={`${baiLight.className} antialiased  bg-[#141414] max-w-[450px] mx-auto`}
       >
         <QueryClientProvider client={queryClient}>
           <AuthContextProvider>
