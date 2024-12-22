@@ -1,4 +1,5 @@
-export interface Bets {
+// Estrutura de uma aposta individual
+export interface Bet {
   match_id: string
   match_date: string
   country_name: string
@@ -13,18 +14,35 @@ export interface Bets {
   stats_away_goals: number
   odd_market: string
   odd_bet: 'Under' | 'Over'
-  odd_line: string
-  odd_value: string
-  valid_0: 0 | 1
-  valid_1: 0 | 1
-  valid_2: 0 | 1
-  valid_3: 0 | 1
-  probability_green: string
-  probability_green_devolution: string
+  odd_line: number
+  odd_value: number
+  valid_0: boolean
+  valid_1: boolean
+  valid_2: boolean
+  valid_3: boolean
+  probability_green: number
+  probability_green_devolution: number
   result: 'Black' | 'Green' | 'Red' | 'Orange'
   bookmaker_link: string
-  is_product_pro?: boolean
-  is_product_starter?: boolean
-  is_product_lite?: boolean
-  is_product_corner?: boolean
+  is_product_pro: boolean
+  is_product_corner: boolean
+  is_product_novice: boolean
+  profit: number
+  inserted_at: string
+  is_filter_hot: boolean
+}
+
+// Estrutura dos gráficos
+
+// Estrutura da página de resultados
+export interface ResultsPage {
+  count_results: number
+  next: string | null
+  previous: string | null
+  results: Bet[]
+}
+
+// Estrutura completa da resposta paginada
+export interface PaginatedResponse {
+  pages: ResultsPage[]
 }

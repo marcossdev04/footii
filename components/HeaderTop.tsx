@@ -1,23 +1,93 @@
+'use client'
 import Image from 'next/image'
 import logo from '@/assets/footilogo.svg'
 import { Tabs, TabsList, TabsTrigger } from './ui/tabs'
 import { Calendar } from './ui/calendar'
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover'
-import { format } from 'date-fns'
-import { useState } from 'react'
+import { format, startOfDay, addDays } from 'date-fns'
+import { useCallback, useEffect, useState } from 'react'
 import { DateRange } from 'react-day-picker'
 import { FaRegCalendarAlt } from 'react-icons/fa'
+import { useFilter } from '@/contexts/useFilter'
 
 interface HeaderTopProps {
   activeTab?: string
   onTabChange?: (tab: string) => void
 }
 
-export function HeaderTop({ activeTab, onTabChange }: HeaderTopProps) {
+export function HeaderTop({ onTabChange }: HeaderTopProps) {
+  const { setDateRange, startDate, endDate } = useFilter()
   const [date, setDate] = useState<DateRange | undefined>({
-    from: new Date(),
-    to: new Date(),
+    from: startDate ? new Date(startDate) : new Date(),
+    to: endDate ? new Date(endDate) : addDays(new Date(), 3),
   })
+  const [activeTab, setActiveTab] = useState<string>('today')
+
+  // Função para verificar se as datas correspondem ao padrão "hoje até hoje + 3 dias"
+  const isDefaultDateRange = useCallback(() => {
+    const today = startOfDay(new Date())
+    const startDateObj = startOfDay(new Date(startDate))
+    const endDateObj = startOfDay(new Date(endDate))
+    const threeDaysFromToday = startOfDay(addDays(today, 3))
+
+    return (
+      startDateObj.getTime() === today.getTime() &&
+      endDateObj.getTime() === threeDaysFromToday.getTime()
+    )
+  }, [startDate, endDate])
+
+  // Atualiza a tab ativa baseada nas datas
+  useEffect(() => {
+    const newActiveTab = isDefaultDateRange() ? 'today' : 'all'
+    setActiveTab(newActiveTab)
+    if (onTabChange) {
+      onTabChange(newActiveTab)
+    }
+  }, [isDefaultDateRange, onTabChange])
+
+  // Handler para mudança de tab
+  const handleTabChange = (value: string) => {
+    setActiveTab(value)
+    onTabChange?.(value)
+
+    const today = new Date()
+    today.setHours(0, 0, 0, 0)
+
+    const threeDaysFromNow = addDays(today, 3)
+    threeDaysFromNow.setHours(23, 59, 59, 999)
+
+    if (value === 'today') {
+      setDate({
+        from: today,
+        to: threeDaysFromNow,
+      })
+      setDateRange(today, threeDaysFromNow)
+    } else {
+      // Para "all", define a data inicial como 01/01/2021
+      const initialDate = new Date(2021, 0, 1) // 01/01/2021
+      initialDate.setHours(0, 0, 0, 0)
+
+      setDate({
+        from: initialDate,
+        to: threeDaysFromNow,
+      })
+      setDateRange(initialDate, threeDaysFromNow)
+    }
+  }
+
+  // Handler para seleção de data no calendário
+  const handleDateSelect = (newDate: DateRange | undefined) => {
+    if (newDate?.from && newDate?.to) {
+      setDate(newDate)
+      const from = new Date(newDate.from)
+      from.setHours(0, 0, 0, 0)
+
+      const to = new Date(newDate.to)
+      to.setHours(23, 59, 59, 999)
+
+      setDateRange(from, to)
+    }
+  }
 
   return (
     <div className="flex py-1 items-center bg-[#272927] text-white justify-between px-5">
@@ -25,7 +95,11 @@ export function HeaderTop({ activeTab, onTabChange }: HeaderTopProps) {
         <Image src={logo} width={30} alt="logo" />
       </div>
 
-      <Tabs value={activeTab} onValueChange={onTabChange} className="w-[100px]">
+      <Tabs
+        value={activeTab}
+        onValueChange={handleTabChange}
+        className="w-[100px]"
+      >
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger
             value="today"
@@ -65,7 +139,7 @@ export function HeaderTop({ activeTab, onTabChange }: HeaderTopProps) {
             mode="range"
             defaultMonth={date?.from}
             selected={date}
-            onSelect={setDate}
+            onSelect={handleDateSelect}
             numberOfMonths={1}
           />
         </PopoverContent>

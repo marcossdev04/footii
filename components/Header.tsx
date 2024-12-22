@@ -5,10 +5,15 @@ import { usePathname } from 'next/navigation'
 import { FaUser } from 'react-icons/fa6'
 import { GiSoccerBall } from 'react-icons/gi'
 
-export function Header() {
+interface Props {
+  padding: boolean
+}
+export function Header({ padding }: Props) {
   const pathname = usePathname()
   return (
-    <div className="fixed bg-[#272927] py-0.5 flex rounded-t-3xl justify-around w-full left-0 bottom-0">
+    <div
+      className={`fixed bg-[#272927] py-0.5 flex rounded-t-3xl justify-around w-full left-0 bottom-0 ${padding ? 'pb-4' : ''}`}
+    >
       <Link href={'/news'} className="flex flex-col items-center">
         <ScrollText
           className={`${pathname === '/news' ? 'bg-default bg-opacity-10  rounded-full text-default' : ''} p-1.5`}

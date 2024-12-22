@@ -17,6 +17,10 @@ body {
     font-family: var(--font-bai-light);
     font-weight: 200;
   }
+  .font-bai-bold {
+    font-family: var(--font-bai-bold);
+    font-weight: 700;
+  }
   :root {
     --background: 0 0% 100%;
     --foreground: 240 10% 3.9%;
