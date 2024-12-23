@@ -4,7 +4,7 @@ import logo from '@/assets/footilogo.svg'
 import { Tabs, TabsList, TabsTrigger } from './ui/tabs'
 import { Calendar } from './ui/calendar'
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover'
-import { format, startOfDay, addDays } from 'date-fns'
+import { startOfDay, addDays } from 'date-fns'
 import { useCallback, useEffect, useState } from 'react'
 import { DateRange } from 'react-day-picker'
 import { FaRegCalendarAlt } from 'react-icons/fa'
@@ -120,17 +120,6 @@ export function HeaderTop({ onTabChange }: HeaderTopProps) {
         <PopoverTrigger asChild>
           <div className="justify-start hover:bg-default hover:bg-opacity-10 cursor-pointer transition-colors duration-300 p-1.5 rounded-full text-left font-normal">
             <FaRegCalendarAlt className="text-default w-5 h-5" />
-            {date?.from && (
-              <span className="hidden lg:inline-block ml-2">
-                {format(date.from, 'LLL dd, y')}
-              </span>
-            )}
-            {date?.to && (
-              <span className="hidden lg:inline-block">
-                {' '}
-                - {format(date.to, 'LLL dd, y')}
-              </span>
-            )}
           </div>
         </PopoverTrigger>
         <PopoverContent className="w-auto p-0" align="end">

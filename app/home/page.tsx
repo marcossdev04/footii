@@ -239,7 +239,7 @@ export default function Home() {
                         className="w-[100px] pr-1 relative overflow-hidden font-bai-bold"
                       >
                         <div className="flex justify-center py-2 rounded-2xl bg-[#3524B0]">
-                          <span className="absolute inset-0 flex items-center justify-center animate-slide-text text-white text-[9px] font-medium">
+                          <span className="absolute -left-1 inset-0 flex items-center justify-center animate-slide-text text-white text-[9px] font-medium">
                             {betText}
                           </span>
                         </div>

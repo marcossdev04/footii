@@ -20,7 +20,6 @@ interface SignInCredentials {
 interface RegisterCredentials {
   name: string
   phone_number: string
-  cpf: string
   email: string
   password: string
 }
@@ -81,7 +80,6 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
   }, [cookies, push, pathname])
 
   async function handleRegister({
-    cpf,
     email,
     name,
     password,
@@ -91,7 +89,6 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     setIsLoading(true)
     const formattedData = {
       name,
-      cpf,
       email,
       password,
       // eslint-disable-next-line camelcase
