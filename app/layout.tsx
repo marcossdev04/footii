@@ -12,6 +12,7 @@ import { queryClient } from '@/api/queryClient'
 import { ToastContainer } from 'react-toastify'
 import { FilterProvider } from '@/contexts/useFilter'
 import { useEffect, useState } from 'react'
+import FootiNewsTop from '@/components/HeaderNews'
 
 const baiLight = Bai_Jamjuree({
   weight: '600',
@@ -70,9 +71,11 @@ export default function RootLayout({
               >
                 {pathname === '/' ||
                 pathname === '/register' ||
-                pathname === '/user' ? null : (
+                pathname === '/user' ||
+                pathname === '/news' ? null : (
                   <HeaderTop />
                 )}
+                {pathname === '/news' ? <FootiNewsTop /> : null}
                 {children}
                 {pathname === '/' || pathname === '/register' ? null : (
                   <Header padding={shouldAddPadding} />

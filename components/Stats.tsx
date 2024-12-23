@@ -3,7 +3,7 @@ import { Skeleton } from './ui/skeleton'
 import { IStats } from '@/types/Stats'
 import { api } from '@/api/api'
 import { useFilter } from '@/contexts/useFilter'
-import { formatDateToYYYYMMDD } from '@/app/home/page'
+import { formatDateToYYYYMMDD } from '@/utils/formatDate'
 
 export function Stats() {
   const { startDate, endDate } = useFilter()

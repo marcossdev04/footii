@@ -64,12 +64,19 @@ const config: Config = {
           '55%': { transform: 'translateX(100%)' },
           '60%, 100%': { transform: 'translateX(0)' },
         },
+        wave: {
+          '0%, 100%': { fill: '#191919' },
+          '50%': { fill: '#E0E0E0' },
+        },
       },
       animation: {
         'slide-text': 'slideText 4s infinite',
+        wave: 'wave 1.5s ease-in-out infinite',
+        'wave-delayed': 'wave 1.5s ease-in-out infinite 0.2s',
       },
     },
   },
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   plugins: [require('tailwindcss-animate')],
 }
 export default config
