@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 'use client'
 import { z } from 'zod'
 import React from 'react'
@@ -34,14 +35,11 @@ import { useAuth } from '@/contexts/useAuth'
 import { GiSoccerBall } from 'react-icons/gi'
 
 const loginSchema = z.object({
-  email: z
-    .string()
-    .min(1, 'E-mail é obrigatório')
-    .email('Formato de e-mail inválido'),
+  email: z.string().min(1, 'Email is required').email('Invalid email format'),
   password: z
     .string()
-    .min(6, 'Senha deve ter pelo menos 6 caracteres')
-    .max(50, 'Senha muito longa'),
+    .min(6, 'Password must have at least 6 characters')
+    .max(50, 'Password is too long'),
 })
 
 type LoginFormValues = z.infer<typeof loginSchema>
@@ -129,7 +127,7 @@ export default function Home() {
         </CardContent>
         <CardFooter className="flex justify-center">
           <p className="text-sm text-gray-200">
-            Dont have an account?{' '}
+            Don't have an account?{' '}
             <a href="/register" className="text-default hover:underline">
               Sing up
             </a>

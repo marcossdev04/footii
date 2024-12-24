@@ -76,7 +76,7 @@ export function UpdatePassword({ user }: Props) {
         new_password: data.newPassword,
       })
       await queryClient.refetchQueries('getUser')
-      toast.success('password changed successfully', {
+      toast.success('Password changed successfully', {
         position: 'bottom-right',
         theme: 'dark',
         closeOnClick: true,
@@ -89,7 +89,7 @@ export function UpdatePassword({ user }: Props) {
       toast.error(
         error.response.data.detail
           ? error.response.data.detail
-          : 'unexpected error',
+          : 'Unexpected error',
         { position: 'bottom-right', theme: 'dark', closeOnClick: true },
       )
     }
@@ -98,7 +98,7 @@ export function UpdatePassword({ user }: Props) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger className="cursor-pointer bg-[#272927] items-center gap-2 rounded-xl py-3 uppercase flex justify-center">
-        <div>security</div>
+        <div>Security</div>
         <div>
           <LucideLockKeyhole className="text-default" size={20} />
         </div>
@@ -116,7 +116,7 @@ export function UpdatePassword({ user }: Props) {
               name="currentPassword"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Senha Atual</FormLabel>
+                  <FormLabel>Current Password</FormLabel>
                   <FormControl>
                     <div className="relative">
                       <Input
@@ -147,7 +147,7 @@ export function UpdatePassword({ user }: Props) {
               name="newPassword"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Nova Senha</FormLabel>
+                  <FormLabel>New Password</FormLabel>
                   <FormControl>
                     <div className="relative">
                       <Input
@@ -178,7 +178,7 @@ export function UpdatePassword({ user }: Props) {
               name="confirmPassword"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Confirmar Nova Senha</FormLabel>
+                  <FormLabel>Confirm New Password</FormLabel>
                   <FormControl>
                     <div className="relative">
                       <Input

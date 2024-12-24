@@ -13,6 +13,7 @@ import { format, isFuture, isToday } from 'date-fns'
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { LoaderCircle } from 'lucide-react'
 import { formatDateToYYYYMMDD } from '@/utils/formatDate'
+import { Carrousel } from '@/components/Carrousel'
 
 type ResultType = 'Black' | 'Green' | 'Orange' | 'Red'
 
@@ -95,10 +96,10 @@ export default function Home() {
   }
 
   const resultsByColor = {
-    Black: { name: 'Em curso', color: '#FAFAFA' },
-    Green: { name: 'Ganho', color: '#24ff6f' },
-    Orange: { name: 'Devolvido', color: '#91cdf8' },
-    Red: { name: 'Perdido', color: '#ff4e63' },
+    Black: { name: 'In Progress', color: '#FAFAFA' },
+    Green: { name: 'Win', color: '#24ff6f' },
+    Orange: { name: 'Draw', color: '#F4DD03' },
+    Red: { name: 'Loss', color: '#ff4e63' },
   }
   const getDateTextColor = (matchDate: string, result: ResultType) => {
     if (resultsByColor[result].name !== 'Em curso') return 'text-[#777]'
@@ -113,6 +114,7 @@ export default function Home() {
 
   return (
     <div className="w-full pb-[70px]">
+      <Carrousel />
       <Stats />
       {isLoading ? (
         Array.from({ length: 20 }, (_, index) => (
@@ -164,7 +166,7 @@ export default function Home() {
                 key={index}
                 className="flex flex-col py-1 px-2 font-bai-light"
               >
-                <div className="flex px-3 bg-gradient-to-r from-[#3E3E3E] via-[#646464] to-[#484848] border-t border-x border-[#3F3F3F] items-center justify-center bg-opacity-90 rounded-t-xl text-[11px] py-1">
+                <div className="flex px-3 bg-gradient-to-r from-[#3E3E3E] via-[#646464] to-[#484848] border-t border-x border-[#3F3F3F] items-center justify-center bg-opacity-90 rounded-t-xl text-[9px] py-0.5">
                   <div className="text-[#FFF]">{game.league_name}</div>
                 </div>
                 <div className="bg-[#1F211F] border-b border-x border-[#464646] gap-1 px-0 py-0 grid grid-cols-11 items-center rounded-b-xl">
@@ -186,7 +188,7 @@ export default function Home() {
                         />
                         <div className="truncate">{game.home_name}</div>
                       </div>
-                      {resultsByColor[game.result].name === 'Em curso' ? (
+                      {resultsByColor[game.result].name === 'In Progress' ? (
                         ''
                       ) : (
                         <div className="text-[#FCE500] text-[8px]">
@@ -204,7 +206,7 @@ export default function Home() {
                         />
                         <div className="truncate">{game.away_name}</div>
                       </div>
-                      {resultsByColor[game.result].name === 'Em curso' ? (
+                      {resultsByColor[game.result].name === 'In Progress' ? (
                         ''
                       ) : (
                         <div className="text-[#FCE500] text-[8px]">
@@ -214,7 +216,7 @@ export default function Home() {
                     </div>
                   </div>
                   <div
-                    className={`flex col-span-5 pl-0 items-center justify-between gap-0 ${resultsByColor[game.result].name === 'Em curso' ? 'pr-2' : 'pr-1'} text-[8px] pb-1`}
+                    className={`flex col-span-5 pl-0 items-center justify-between gap-0 ${resultsByColor[game.result].name === 'In Progress' ? 'pr-2' : 'pr-1'} text-[8px] pb-1`}
                   >
                     <div className="flex flex-col gap-1 w-full items-center">
                       <div className="bg-[#2E3030] px-2 text-center text-zinc-100 rounded-full bg-opacity-90">
@@ -232,7 +234,7 @@ export default function Home() {
                         {game.odd_value.toFixed(1)}
                       </div>
                     </div>
-                    {resultsByColor[game.result].name === 'Em curso' ? (
+                    {resultsByColor[game.result].name === 'In Progress' ? (
                       <Link
                         target="_blank"
                         href={`${game.bookmaker_link}I3`}
@@ -251,7 +253,7 @@ export default function Home() {
                         </div>
 
                         <div
-                          className={` rounded-b-md w-full text-center ${game.result === 'Black' ? 'text-[#FAFAFA]' : game.result === 'Green' ? 'text-[#24ff6f]' : game.result === 'Orange' ? 'text-[#91cdf8]' : 'text-[#ff4e63]'}`}
+                          className={` rounded-b-md w-full text-center ${game.result === 'Black' ? 'text-[#FAFAFA]' : game.result === 'Green' ? 'text-[#24ff6f]' : game.result === 'Orange' ? 'text-[#E3FA9C]' : 'text-[#ff4e63]'}`}
                         >
                           {resultsByColor[game.result].name}
                         </div>

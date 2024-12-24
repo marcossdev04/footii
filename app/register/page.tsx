@@ -29,24 +29,21 @@ const registerSchema = z
   .object({
     name: z
       .string()
-      .min(2, 'Nome deve ter pelo menos 2 caracteres')
-      .max(50, 'Nome muito longo'),
-    email: z
-      .string()
-      .min(1, 'E-mail é obrigatório')
-      .email('Formato de e-mail inválido'),
+      .min(2, 'Name must have at least 2 characters')
+      .max(50, 'Name is too long'),
+    email: z.string().min(1, 'Email is required').email('Invalid email format'),
     phone: z
       .string()
-      .min(10, 'Telefone deve ter pelo menos 10 dígitos')
-      .max(15, 'Telefone muito longo'),
+      .min(10, 'Phone must have at least 10 digits')
+      .max(15, 'Phone number is too long'),
     password: z
       .string()
-      .min(6, 'Senha deve ter pelo menos 6 caracteres')
-      .max(50, 'Senha muito longa'),
-    confirmPassword: z.string().min(1, 'Confirmação de senha é obrigatória'),
+      .min(6, 'Password must have at least 6 characters')
+      .max(50, 'Password is too long'),
+    confirmPassword: z.string().min(1, 'Password confirmation is required'),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    message: 'Senhas não coincidem',
+    message: 'Passwords do not match',
     path: ['confirmPassword'],
   })
 

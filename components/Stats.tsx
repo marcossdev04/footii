@@ -88,7 +88,7 @@ export function Stats() {
           Profit
         </div>
         <div className=" w-full border border-zinc-700 py-1 flex justify-center rounded-b-lg text-default">
-          {stats?.hit_rate}%
+          {stats?.hit_rate}
         </div>
       </div>
       <div className="col-span-2">

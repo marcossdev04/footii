@@ -32,9 +32,9 @@ interface Props {
 }
 
 const formSchema = z.object({
-  name: z.string().min(2, 'Nome deve ter pelo menos 2 caracteres'),
-  email: z.string().email('Email inválido'),
-  phone: z.string().min(10, 'Telefone deve ter pelo menos 10 dígitos'),
+  name: z.string().min(2, 'Name must have at least 2 characters'),
+  email: z.string().email('Invalid email format'),
+  phone: z.string().min(10, 'Phone number must have at least 10 digits'),
 })
 
 type FormValues = z.infer<typeof formSchema>
@@ -92,7 +92,7 @@ export function UpdateUser({ user }: Props) {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Nome</FormLabel>
+                  <FormLabel>Name</FormLabel>
                   <FormControl>
                     <Input
                       className="bg-[#272927] border border-zinc-600"
