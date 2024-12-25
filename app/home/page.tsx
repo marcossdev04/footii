@@ -177,7 +177,7 @@ export default function Home() {
                     <div>{time}</div>
                     <div>{period}</div>
                   </div>
-                  <div className="flex col-span-5 flex-col pl-2 text-[8px]">
+                  <div className="flex col-span-5 flex-col pl-2 text-[9px]">
                     <div className="flex justify-between items-center">
                       <div className=" mb-1 flex w-[95%] gap-1 items-center">
                         <Image
@@ -191,7 +191,7 @@ export default function Home() {
                       {resultsByColor[game.result].name === 'In Progress' ? (
                         ''
                       ) : (
-                        <div className="text-[#FCE500] text-[8px]">
+                        <div className="text-[#FCE500] text-[9px]">
                           {game.stats_home_goals}
                         </div>
                       )}
@@ -209,16 +209,16 @@ export default function Home() {
                       {resultsByColor[game.result].name === 'In Progress' ? (
                         ''
                       ) : (
-                        <div className="text-[#FCE500] text-[8px]">
+                        <div className="text-[#FCE500] text-[9px]">
                           {game.stats_away_goals}
                         </div>
                       )}
                     </div>
                   </div>
                   <div
-                    className={`flex col-span-5 pl-0 items-center justify-between gap-0 ${resultsByColor[game.result].name === 'In Progress' ? 'pr-2' : 'pr-1'} text-[8px] pb-1`}
+                    className={`flex col-span-5 pl-0 items-center justify-between gap-0 ${resultsByColor[game.result].name === 'In Progress' ? 'pr-2' : 'pr-1'} text-[8px] pb-0`}
                   >
-                    <div className="flex flex-col gap-1 w-full items-center">
+                    <div className="flex flex-col gap-2 w-full items-center">
                       <div className="bg-[#2E3030] px-2 text-center text-zinc-100 rounded-full bg-opacity-90">
                         Goal Line
                       </div>
@@ -226,7 +226,7 @@ export default function Home() {
                         {game.odd_bet} {game.odd_line.toFixed(1)}
                       </div>
                     </div>
-                    <div className="flex gap-1 w-full flex-col items-center">
+                    <div className="flex gap-2 w-full flex-col items-center">
                       <div className="bg-[#2E3030] text-zinc-100 text-center rounded-full bg-opacity-90 px-3">
                         Odd
                       </div>
@@ -247,7 +247,7 @@ export default function Home() {
                         </div>
                       </Link>
                     ) : (
-                      <div className="flex w-full gap-1 flex-col items-center">
+                      <div className="flex w-full gap-2 flex-col items-center">
                         <div className="bg-[#2E3030] w-full text-zinc-100 text-center rounded-full bg-opacity-90 px-2">
                           Result
                         </div>
