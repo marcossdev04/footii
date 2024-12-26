@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable camelcase */
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { api } from '../api/api'
@@ -6,6 +8,7 @@ import { CookiesProvider, useCookies } from 'react-cookie'
 import {
   ReactNode,
   createContext,
+  useCallback,
   useContext,
   useEffect,
   useState,
@@ -54,17 +57,55 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     !!cookies.token_footiapp,
   )
 
+  const handleSignOut = useCallback(() => {
+    removeCookie('token_footiapp')
+    removeCookie('refresh_footiapp')
+    if (typeof window !== 'undefined') {
+      localStorage.clear()
+    }
+    api.defaults.headers.Authorization = ''
+    setIsAuthenticated(false)
+    push('/')
+  }, [push, removeCookie])
+
   useEffect(() => {
-    const handleCookieChange = () => {
+    const refreshAccessToken = async (refresh_token: string) => {
+      try {
+        const response = await api.post('/token/refresh/', {
+          refresh: refresh_token,
+        })
+        return response.data.access
+      } catch (error) {
+        return null
+      }
+    }
+
+    const handleCookieChange = async () => {
       const isPublicRoute = pathname === '/' || pathname === '/register'
 
       if (!cookies.token_footiapp) {
+        // Tenta refresh antes de deslogar
+        if (cookies.refresh_footiapp && !isPublicRoute) {
+          try {
+            const newAccessToken = await refreshAccessToken(
+              cookies.refresh_footiapp,
+            )
+            if (newAccessToken) {
+              setCookie('token_footiapp', newAccessToken, { maxAge: 60 * 30 })
+              api.defaults.headers.Authorization = `Bearer ${newAccessToken}`
+              setIsAuthenticated(true)
+              return // Retorna se o refresh foi bem sucedido
+            }
+          } catch (error) {
+            console.error('Refresh token error:', error)
+          }
+        }
+
+        // Só desloga se não conseguiu fazer o refresh
         setIsAuthenticated(false)
         api.defaults.headers.Authorization = ''
-
-        // Só faz o redirecionamento se não estiver em uma rota pública
         if (!isPublicRoute) {
-          push('/')
+          handleSignOut()
         }
       } else {
         setIsAuthenticated(true)
@@ -72,18 +113,57 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
       }
     }
 
-    handleCookieChange()
+    // Configura o interceptor
+    const interceptor = api.interceptors.response.use(
+      (response) => response,
+      async (error) => {
+        const originalRequest = error.config
 
+        if (
+          error.response?.status === 401 &&
+          !originalRequest._retry &&
+          cookies.refresh_footiapp
+        ) {
+          originalRequest._retry = true
+
+          try {
+            const newAccessToken = await refreshAccessToken(
+              cookies.refresh_footiapp,
+            )
+            if (newAccessToken) {
+              setCookie('token_footiapp', newAccessToken, { maxAge: 5 })
+              api.defaults.headers.Authorization = `Bearer ${newAccessToken}`
+              originalRequest.headers.Authorization = `Bearer ${newAccessToken}`
+              return api(originalRequest)
+            }
+          } catch (refreshError) {
+            console.error('Error refreshing token:', refreshError)
+          }
+        }
+
+        return Promise.reject(error)
+      },
+    )
+
+    handleCookieChange()
     const interval = setInterval(handleCookieChange, 2000)
 
-    return () => clearInterval(interval)
-  }, [cookies, push, pathname])
+    return () => {
+      clearInterval(interval)
+      api.interceptors.response.eject(interceptor)
+    }
+  }, [
+    cookies.token_footiapp,
+    cookies.refresh_footiapp,
+    pathname,
+    setCookie,
+    handleSignOut,
+  ])
 
   async function handleRegister({
     email,
     name,
     password,
-    // eslint-disable-next-line camelcase
     phone_number,
   }: RegisterCredentials) {
     setIsLoading(true)
@@ -91,7 +171,6 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
       name,
       email,
       password,
-      // eslint-disable-next-line camelcase
       phone_number,
     }
     try {
@@ -102,15 +181,14 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
       await queryClient.refetchQueries(['getUsers'])
 
       setIsLoading(false)
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err: any) {
       setIsLoading(false)
       toast.error(
         err.response.data.non_field_errors === 'This password is too common.'
-          ? 'Senha fraca'
+          ? 'Weak password'
           : err.response.data.cpf
-            ? 'CPF inválido'
-            : 'Não foi possível fazer a criação da conta.',
+            ? 'Invalid CPF'
+            : 'Account creation failed.',
         {
           position: 'bottom-right',
           theme: 'dark',
@@ -123,7 +201,6 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
   async function handleSignIn({ email, password }: SignInCredentials) {
     setIsLoading(true)
     try {
-      // Primeira requisição - login
       const response = await api.post('/token/', {
         email,
         password,
@@ -132,38 +209,37 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
       const accessToken = response.data.access
       const refreshToken = response.data.refresh
 
-      // Define cookies e headers
-      setCookie('token_footiapp', accessToken, { maxAge: 60 * 30 })
+      setCookie('token_footiapp', accessToken, { maxAge: 5 })
       setCookie('refresh_footiapp', refreshToken, {
-        maxAge: 60 * 60 * 12,
+        maxAge: 60 * 60 * 12, // 12 horas
       })
       api.defaults.headers.Authorization = `Bearer ${accessToken}`
 
       setIsAuthenticated(true)
       push('/home')
     } catch (err: any) {
-      let errorMessage = 'Erro desconhecido'
+      let errorMessage = 'Unknown error'
 
       if (err.response) {
         const { status, data } = err.response
 
         switch (status) {
           case 403:
-            errorMessage = 'Usuário já está conectado'
+            errorMessage = 'User is already connected'
             break
           case 404:
-            errorMessage = 'Email ou senha incorreta'
+            errorMessage = 'Invalid email or password'
             break
           case 400:
             if (data.error === 'Wrong password') {
-              errorMessage = 'Email ou senha incorreta'
+              errorMessage = 'Invalid email or password'
             }
             break
           case 401:
-            errorMessage = 'Email ou senha incorreta'
+            errorMessage = 'Invalid email or password'
             break
           default:
-            console.error('Erro detalhado:', err.response)
+            console.error('Detailed error:', err.response)
         }
       }
 
@@ -175,17 +251,6 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     } finally {
       setIsLoading(false)
     }
-  }
-
-  async function handleSignOut() {
-    removeCookie('token_footiapp')
-    removeCookie('refresh_footiapp')
-    if (typeof window !== 'undefined') {
-      localStorage.clear() // Limpa todo o localStorage
-    }
-    api.defaults.headers.Authorization = ''
-    setIsAuthenticated(false)
-    push('/')
   }
 
   function handleClearErrorSignIn() {
