@@ -70,6 +70,7 @@ export default function RootLayout({
                 disableTransitionOnChange
               >
                 {pathname === '/' ||
+                pathname === '/login' ||
                 pathname === '/register' ||
                 pathname === '/user' ||
                 pathname === '/news' ? null : (
@@ -77,7 +78,9 @@ export default function RootLayout({
                 )}
                 {pathname === '/news' ? <FootiNewsTop /> : null}
                 {children}
-                {pathname === '/' || pathname === '/register' ? null : (
+                {pathname === '/' ||
+                pathname === '/register' ||
+                pathname === '/login' ? null : (
                   <Header padding={shouldAddPadding} />
                 )}
               </ThemeProvider>
