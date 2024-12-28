@@ -9,6 +9,7 @@ import gamecare from '@/assets/gamecare.svg'
 import Image from 'next/image'
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from './ui/dialog'
 import { Dot } from 'lucide-react'
+import Link from 'next/link'
 export function Footer() {
   return (
     <footer className="w-full mb-2 z-10 ">
@@ -787,9 +788,15 @@ export function Footer() {
         </Dialog>
         <div className="flex gap-3">
           <Image src={x} alt="twitter" />
-          <Image src={telegram} alt="telegran" />
-          <Image src={instagram} alt="instagram" />
-          <Image src={whatsapp} alt="whatsapp" />
+          <Link target="_blank" href={'https://t.me/footiai'}>
+            <Image src={telegram} alt="telegran" />
+          </Link>
+          <Link target="_blank" href={'https://www.instagram.com/footi.bet/'}>
+            <Image src={instagram} alt="instagram" />
+          </Link>
+          <Link target="_blank" href={'https://wa.link/9cspp7'}>
+            <Image src={whatsapp} alt="whatsapp" />
+          </Link>
         </div>
         <div className="text-[10px]">
           Content on footi.ai is not intended for anybody under 18 years of age.

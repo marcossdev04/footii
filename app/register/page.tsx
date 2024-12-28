@@ -23,7 +23,7 @@ import { Button } from '@/components/ui/button'
 import Image from 'next/image'
 import logo from '@/assets/footilogo.svg'
 import { useAuth } from '@/contexts/useAuth'
-import { GiSoccerBall } from 'react-icons/gi'
+import LoadingOverlay from '@/components/RegisterLoading'
 
 const registerSchema = z
   .object({
@@ -74,6 +74,7 @@ export default function Register() {
 
   return (
     <div className="flex flex-col min-h-[90vh] items-center justify-center px-5 gap-10">
+      {isLoading && <LoadingOverlay onLoadingComplete={() => {}} />}
       <div className="w-full mt-4">
         <CardHeader>
           <CardTitle className="text-2xl flex justify-center font-bold">
@@ -177,19 +178,13 @@ export default function Register() {
                 )}
               />
 
-              {isLoading ? (
-                <div className="flex bg-default justify-center items-center py-0.5 rounded-md">
-                  <GiSoccerBall className="animate-spin text-black" size={32} />
-                </div>
-              ) : (
-                <Button
-                  type="submit"
-                  className="w-full text-xl mt-3 bg-default hover:bg-default/80"
-                  disabled={isLoading}
-                >
-                  Create Account
-                </Button>
-              )}
+              <Button
+                type="submit"
+                className="w-full text-xl mt-3 bg-default hover:bg-default/80"
+                disabled={isLoading}
+              >
+                Create Account
+              </Button>
             </form>
           </Form>
         </CardContent>
