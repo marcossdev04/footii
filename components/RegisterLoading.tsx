@@ -29,24 +29,18 @@ const LoadingOverlay = ({ onLoadingComplete }: Props) => {
   return (
     <div className="w-full h-full absolute top-0 left-0 bg-[#131413] flex flex-col justify-center items-center overflow-hidden">
       {/* Ellipses container */}
-      <div className="absolute inset-0">
-      </div>
+      <div className="absolute inset-0"></div>
 
       {/* Loading bar container with ball */}
       <div className="relative w-[85%] mb-4">
         {/* Ball position based on progress */}
-        <div 
+        <div
           className="absolute -top-5 transition-all duration-50 ease-linear"
-          style={{ 
+          style={{
             left: `calc(${progress}% - 20px)`, // 40px is half the ball width
           }}
         >
-          <Image 
-            src={ballSoccer} 
-            alt="Soccer Ball" 
-            width={50} 
-            height={50} 
-          />
+          <Image src={ballSoccer} alt="Soccer Ball" width={50} height={50} />
         </div>
 
         {/* Loading bar */}
@@ -62,7 +56,9 @@ const LoadingOverlay = ({ onLoadingComplete }: Props) => {
       <div className="font-bai-bold text-lg z-20 text-center text-default px-4">
         {progress < 25 && 'Analyzing match statistics...'}
         {progress >= 25 && progress < 50 && 'Processing odds data...'}
-        {progress >= 50 && progress < 75 && 'Calculating best betting opportunities...'}
+        {progress >= 50 &&
+          progress < 75 &&
+          'Calculating best betting opportunities...'}
         {progress >= 75 && progress < 100 && 'Finalizing predictions...'}
         {progress === 100 && 'Your smart betting insights are ready!'}
       </div>
