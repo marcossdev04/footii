@@ -68,8 +68,20 @@ const config: Config = {
           '0%, 100%': { fill: '#191919' },
           '50%': { fill: '#E0E0E0' },
         },
+        ellipse: {
+          '0%, 100%': {
+            transform: 'translate(-50%, -50%) scale(1)',
+            opacity: '0.7',
+          },
+          '50%': {
+            transform: 'translate(-45%, -55%) scale(0.8)',
+            opacity: '0.5',
+          },
+        },
       },
       animation: {
+        ellipse: 'ellipse 5s ease-in-out infinite',
+        'ellipse-delayed': 'ellipse 5s ease-in-out infinite -2.5s',
         'slide-text': 'slideText 4s infinite',
         wave: 'wave 1.5s ease-in-out infinite',
         'wave-delayed': 'wave 1.5s ease-in-out infinite 0.2s',

@@ -1,6 +1,6 @@
 'use client'
 import { z } from 'zod'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
@@ -24,6 +24,7 @@ import Image from 'next/image'
 import logo from '@/assets/footilogo.svg'
 import { useAuth } from '@/contexts/useAuth'
 import LoadingOverlay from '@/components/RegisterLoading'
+import { Ellipsis2, Ellipsis3 } from '@/components/Elipisis'
 
 const registerSchema = z
   .object({
@@ -51,6 +52,20 @@ type RegisterFormValues = z.infer<typeof registerSchema>
 
 export default function Register() {
   const { handleRegister, isLoading } = useAuth()
+  const [showLoading, setShowLoading] = useState(false)
+
+  useEffect(() => {
+    if (isLoading) {
+      setShowLoading(true)
+    }
+  }, [isLoading])
+
+  // Função para ser chamada quando a animação terminar
+  const handleLoadingComplete = () => {
+    if (!isLoading) {
+      setShowLoading(false)
+    }
+  }
 
   const form = useForm<RegisterFormValues>({
     resolver: zodResolver(registerSchema),
@@ -73,8 +88,14 @@ export default function Register() {
   }
 
   return (
-    <div className="flex flex-col min-h-[90vh] items-center justify-center px-5 gap-10">
-      {isLoading && <LoadingOverlay onLoadingComplete={() => {}} />}
+    <div className="flex flex-col min-h-[90vh] z-10 items-center justify-center px-5 gap-10">
+      {showLoading && (
+        <LoadingOverlay onLoadingComplete={handleLoadingComplete} />
+      )}
+      <div className="fixed inset-0 overflow-hidden -z-10">
+        <Ellipsis2 />
+        <Ellipsis3 />
+      </div>
       <div className="w-full mt-4">
         <CardHeader>
           <CardTitle className="text-2xl flex justify-center font-bold">
@@ -95,9 +116,9 @@ export default function Register() {
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-default">Name</FormLabel>
+                    <FormLabel className="text-white">Name</FormLabel>
                     <FormControl>
-                      <Input placeholder="Your name" {...field} />
+                      <Input transparent placeholder="Your name" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -109,9 +130,10 @@ export default function Register() {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-default">Email</FormLabel>
+                    <FormLabel className="text-white">Email</FormLabel>
                     <FormControl>
                       <Input
+                        transparent
                         type="email"
                         placeholder="your@email.com"
                         {...field}
@@ -127,9 +149,10 @@ export default function Register() {
                 name="phone"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-default">Phone</FormLabel>
+                    <FormLabel className="text-white">Phone</FormLabel>
                     <FormControl>
                       <Input
+                        transparent
                         type="tel"
                         placeholder="+55 (99) 99999-9999"
                         {...field}
@@ -145,9 +168,10 @@ export default function Register() {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-default">Password</FormLabel>
+                    <FormLabel className="text-white">Password</FormLabel>
                     <FormControl>
                       <Input
+                        transparent
                         type="password"
                         placeholder="Your password"
                         {...field}
@@ -163,11 +187,12 @@ export default function Register() {
                 name="confirmPassword"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-default">
+                    <FormLabel className="text-white ">
                       Confirm Password
                     </FormLabel>
                     <FormControl>
                       <Input
+                        transparent
                         type="password"
                         placeholder="Confirm your password"
                         {...field}

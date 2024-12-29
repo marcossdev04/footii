@@ -1,7 +1,7 @@
 'use client'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { FaEdit } from 'react-icons/fa'
+
 import * as z from 'zod'
 import { Button } from '@/components/ui/button'
 import {
@@ -26,6 +26,7 @@ import { queryClient } from '@/api/queryClient'
 import { toast } from 'react-toastify'
 import { UserInterface } from '@/types/User'
 import { GiSoccerBall } from 'react-icons/gi'
+import { SquarePen } from 'lucide-react'
 
 interface Props {
   user: UserInterface | undefined
@@ -77,12 +78,15 @@ export function UpdateUser({ user }: Props) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger>
-        <FaEdit className="text-default" size={22} />
+        <SquarePen
+          className="text-white hover:text-default transition-colors duration-300"
+          size={20}
+        />
       </DialogTrigger>
 
       <DialogContent className="max-w-[95vw] rounded-lg bg-[#272927]">
         <DialogHeader>
-          <DialogTitle className="text-default">Update User</DialogTitle>
+          <DialogTitle className="text-white">Update User</DialogTitle>
         </DialogHeader>
 
         <Form {...form}>

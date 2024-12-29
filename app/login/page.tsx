@@ -27,6 +27,7 @@ import player from '@/assets/loginPlayer.svg'
 import { useAuth } from '@/contexts/useAuth'
 import { GiSoccerBall } from 'react-icons/gi'
 import { Footer } from '@/components/footer'
+import { Ellipsis2, Ellipsis3 } from '@/components/Elipisis'
 
 const loginSchema = z.object({
   email: z.string().min(1, 'Email is required').email('Invalid email format'),
@@ -54,7 +55,11 @@ export default function Home() {
   }
 
   return (
-    <div className="flex flex-col min-h-[90vh] items-center justify-center px-5 gap-10">
+    <div className="flex flex-col min-h-[90vh] z-10 items-center justify-center px-5 gap-10">
+      <div className="fixed inset-0 overflow-hidden -z-10">
+        <Ellipsis2 />
+        <Ellipsis3 />
+      </div>
       <div className="w-full mt-12">
         <CardHeader>
           <CardTitle className="text-2xl flex justify-center font-bold">
@@ -73,9 +78,11 @@ export default function Home() {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-default">Email</FormLabel>
+                    <FormLabel className="text-white">Email</FormLabel>
                     <FormControl>
                       <Input
+                        transparent
+                        className="bg-transparent"
                         type="email"
                         placeholder="your@email.com"
                         {...field}
@@ -91,9 +98,10 @@ export default function Home() {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-default">Password</FormLabel>
+                    <FormLabel className="text-white">Password</FormLabel>
                     <FormControl>
                       <Input
+                        transparent
                         type="password"
                         placeholder="Your password"
                         {...field}
@@ -131,7 +139,6 @@ export default function Home() {
       <div className="absolute bottom-0 right-0 pointer-events-none">
         <Image src={player} width={250} alt="player" className="select-none" />
       </div>
-
       {/* Footer */}
       <Footer />
     </div>

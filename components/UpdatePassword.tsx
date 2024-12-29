@@ -21,7 +21,7 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { useState } from 'react'
-import { Eye, EyeOff, LucideLockKeyhole } from 'lucide-react'
+import { Eye, EyeOff, LockKeyhole } from 'lucide-react'
 import { api } from '@/api/api'
 import { UserInterface } from '@/types/User'
 import { queryClient } from '@/api/queryClient'
@@ -97,16 +97,22 @@ export function UpdatePassword({ user }: Props) {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger className="cursor-pointer bg-[#272927] items-center gap-2 rounded-xl py-3 uppercase flex justify-center">
-        <div>Security</div>
-        <div>
-          <LucideLockKeyhole className="text-default" size={20} />
+      <DialogTrigger className="flex items-center pb-2 rounded-2xl   bg-[#1D1E1D] flex-col">
+        <div className="bg-[#272927] w-full rounded-2xl py-3.5 font-bai-bold px-4">
+          <div className="flex justify-between items-center w-full">
+            <div className="text-[#272927]">oi</div>
+            <div className="flex items-center gap-2">
+              SECURITY
+              <LockKeyhole size={20} />
+            </div>
+            <div className="text-[#272927]">oi</div>
+          </div>
         </div>
       </DialogTrigger>
 
       <DialogContent className="max-w-[95vw] rounded-lg bg-[#272927]">
         <DialogHeader>
-          <DialogTitle className="text-default">Update Password</DialogTitle>
+          <DialogTitle className="text-white">Update Password</DialogTitle>
         </DialogHeader>
 
         <Form {...form}>

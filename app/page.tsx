@@ -6,9 +6,14 @@ import results from '@/assets/results.svg'
 import clock from '@/assets/alarm.svg'
 import { Footer } from '@/components/footer'
 import Link from 'next/link'
+import { Ellipsis2, Ellipsis3 } from '@/components/Elipisis'
 export default function Page() {
   return (
-    <div className="px-6 flex flex-col justify-center items-center min-h-[90vh] ">
+    <div className="px-6 flex z-10 flex-col justify-center items-center min-h-[90vh] ">
+      <div className="fixed inset-0 overflow-hidden -z-10">
+        <Ellipsis2 />
+        <Ellipsis3 />
+      </div>
       <div className="flex mt-4 justify-center gap-3 flex-col items-center">
         <div>
           <Image src={logo} alt="logo" />

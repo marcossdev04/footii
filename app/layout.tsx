@@ -13,7 +13,6 @@ import { ToastContainer } from 'react-toastify'
 import { FilterProvider } from '@/contexts/useFilter'
 import { useEffect, useState } from 'react'
 import FootiNewsTop from '@/components/HeaderNews'
-
 const baiLight = Bai_Jamjuree({
   weight: '600',
   subsets: ['latin'],
@@ -57,8 +56,28 @@ export default function RootLayout({
   const pathname = usePathname()
   return (
     <html lang="en">
+      {pathname === '/user' ||
+      pathname === '/' ||
+      pathname === '/login' ||
+      pathname === '/register' ? (
+        <head>
+          <meta name="theme-color" content="#141414" />
+        </head>
+      ) : (
+        <head>
+          <meta name="theme-color" content="#272927" />
+        </head>
+      )}
+
       <body
-        className={`${baiLight.className} ${baiBold.variable} antialiased  bg-[#141414] max-w-[450px] mx-auto`}
+        className={`${baiLight.className} ${baiBold.variable} ${
+          pathname === '/' ||
+          pathname === '/login' ||
+          pathname === '/register' ||
+          pathname === '/user'
+            ? null
+            : 'mt-12'
+        } antialiased  bg-[#141414] max-w-[450px] mx-auto`}
       >
         <QueryClientProvider client={queryClient}>
           <AuthContextProvider>

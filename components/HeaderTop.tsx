@@ -90,49 +90,54 @@ export function HeaderTop({ onTabChange }: HeaderTopProps) {
   }
 
   return (
-    <div className="flex py-1 items-center bg-[#272927] text-white justify-between px-5">
+    <div className="flex fixed w-full z-10 pt-1 pb-2 top-0 items-center bg-[#272927] text-white justify-between px-5">
       <div>
-        <Image src={logo} width={30} alt="logo" />
+        <Image src={logo} width={22} alt="logo" />
       </div>
-
       <Tabs
         value={activeTab}
         onValueChange={handleTabChange}
-        className="w-[100px]"
+        className="w-[86.56px]"
       >
-        <TabsList className="grid w-full grid-cols-2">
+        <TabsList className="h-[22px] bg-[#131413] p-0">
           <TabsTrigger
             value="today"
-            className="data-[state=active]:bg-default bg-[#333] rounded-l-lg text-xs data-[state=active]:bg-opacity-10 data-[state=active]:text-default"
+            className="h-[22px] w-[45.04px] text-[10px] font-bold data-[state=active]:bg-[#666666] data-[state=active]:text-white text-[#A3A3A3] rounded-[20px] transition-all duration-300"
           >
             Today
           </TabsTrigger>
           <TabsTrigger
             value="all"
-            className="data-[state=active]:bg-default bg-[#333] rounded-r-lg text-xs data-[state=active]:bg-opacity-10 data-[state=active]:text-default"
+            className="h-[22px] w-[45.04px] text-[10px] font-bold data-[state=active]:bg-[#666666] data-[state=active]:text-white text-[#A3A3A3] rounded-[20px] transition-all duration-300"
           >
             All
           </TabsTrigger>
         </TabsList>
       </Tabs>
 
-      <Popover>
-        <PopoverTrigger asChild>
-          <div className="justify-start hover:bg-default hover:bg-opacity-10 cursor-pointer transition-colors duration-300 p-1.5 rounded-full text-left font-normal">
-            <FaRegCalendarAlt className="text-default w-5 h-5" />
-          </div>
-        </PopoverTrigger>
-        <PopoverContent className="w-auto p-0" align="end">
-          <Calendar
-            initialFocus
-            mode="range"
-            defaultMonth={date?.from}
-            selected={date}
-            onSelect={handleDateSelect}
-            numberOfMonths={1}
-          />
-        </PopoverContent>
-      </Popover>
+      {activeTab === 'today' ? (
+        <div className="justify-start p-1.5 rounded-full text-left font-normal">
+          <FaRegCalendarAlt className="text-white w-5 h-5 opacity-50" />
+        </div>
+      ) : (
+        <Popover>
+          <PopoverTrigger asChild>
+            <div className="justify-start hover:bg-opacity-10 cursor-pointer transition-colors duration-300 p-1.5 rounded-full text-left font-normal">
+              <FaRegCalendarAlt className="text-white w-5 h-5" />
+            </div>
+          </PopoverTrigger>
+          <PopoverContent className="w-auto p-0" align="end">
+            <Calendar
+              initialFocus
+              mode="range"
+              defaultMonth={date?.from}
+              selected={date}
+              onSelect={handleDateSelect}
+              numberOfMonths={1}
+            />
+          </PopoverContent>
+        </Popover>
+      )}
     </div>
   )
 }
