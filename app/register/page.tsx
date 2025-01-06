@@ -63,7 +63,9 @@ export default function Register() {
   // Função para ser chamada quando a animação terminar
   const handleLoadingComplete = () => {
     if (!isLoading) {
-      setShowLoading(false)
+      setTimeout(() => {
+        setShowLoading(false)
+      }, 2000)
     }
   }
 

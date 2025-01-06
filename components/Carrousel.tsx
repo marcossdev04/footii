@@ -36,7 +36,7 @@ export function Carrousel() {
   return (
     <Carousel
       plugins={[plugin]}
-      className="w-full mt-1 mb-1 px-2 rounded-lg"
+      className="w-full bg-[#141414] mt-1 mb-1 px-2 rounded-lg"
       opts={{
         align: 'start',
         loop: true,

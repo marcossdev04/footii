@@ -5,6 +5,7 @@ import soccerBall from '@/assets/soccer-ball.svg'
 interface Props {
   onLoadingComplete: () => void
 }
+
 const LoadingOverlay = ({ onLoadingComplete }: Props) => {
   const [progress, setProgress] = useState(0)
 
@@ -13,7 +14,10 @@ const LoadingOverlay = ({ onLoadingComplete }: Props) => {
       setProgress((oldProgress) => {
         if (oldProgress === 100) {
           clearInterval(timer)
-          onLoadingComplete()
+          // Quando atingir 100%, espera 2 segundos antes de chamar onLoadingComplete
+          setTimeout(() => {
+            onLoadingComplete()
+          }, 5000)
           return 100
         }
         return Math.min(oldProgress + 1, 100)

@@ -176,6 +176,8 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     }
     try {
       await api.post('/users/', formattedData).then(async () => {
+        // Adiciona um delay de 3 segundos antes do handleSignIn
+        await new Promise((resolve) => setTimeout(resolve, 3000))
         const data = { email, password }
         await handleSignIn(data)
       })

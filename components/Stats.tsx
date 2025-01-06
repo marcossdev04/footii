@@ -22,7 +22,7 @@ export function Stats() {
   const roic = stats?.returns !== undefined ? stats.returns * 2.5 : 0
   if (loading) {
     return (
-      <div className="grid mt-2 mb-1 grid-cols-12 gap-2 px-2 text-[10px]">
+      <div className="grid mt-2 mb-1 w-full max-w-[450px] grid-cols-12 gap-2 px-2 text-[10px]">
         {/* Matches */}
         <div className="col-span-2 flex justify-center items-center flex-col">
           <div className="bg-[#3D3D3D] rounded-t-lg w-full flex justify-center py-1">
@@ -74,7 +74,7 @@ export function Stats() {
     )
   }
   return (
-    <div className="grid mt-2 mb-1 grid-cols-12 gap-2 px-2 text-[10px]">
+    <div className="grid mt-2 mb-1 w-full max-w-[450px] grid-cols-12 gap-2 px-2 text-[10px]">
       <div className="col-span-2 flex justify-center items-center flex-col">
         <div className="bg-[#3D3D3D] rounded-t-lg w-full flex justify-center">
           Matches
