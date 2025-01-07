@@ -6,10 +6,11 @@ import { teamNameToImageId } from '@/utils/teamNameToImageId'
 import noImage from '@/assets/noImage.png'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { Progress } from './ui/progress'
 import { api } from '@/api/api'
 import { useQuery } from 'react-query'
 import { h2h } from '@/types/h2h'
+import { LastMatches } from './LastMatches'
+import { Progress } from './ui/progress'
 
 interface Props {
   game: Bet
@@ -18,6 +19,7 @@ type ResultType = 'Black' | 'Green' | 'Orange' | 'Red'
 
 export function H2h({ game }: Props) {
   const [betText, setBetText] = useState('Bet')
+  const [selectedTab, setSelectedTab] = useState<'home' | 'away' | 'h2h'>('h2h')
 
   async function fetchH2h() {
     const response = await api.get(`/results/h2h/${game.match_id}`)
@@ -55,13 +57,14 @@ export function H2h({ game }: Props) {
     Red: { name: 'Loss', color: '#000000' },
   }
   const getDateTextColor = (matchDate: string, result: ResultType) => {
-    if (resultsByColor[result].name !== 'Em curso') return 'text-[#777]'
+    if (resultsByColor[result].name !== 'In Progress') return 'text-[#777]'
 
     const date = new Date(matchDate)
     if (isToday(date)) return 'text-[#E3FA9C]'
     if (isFuture(date)) return 'text-white'
     return 'text-[#777]'
   }
+
   const { shortDate, time, period } = formatMatchDate(game.match_date)
   return (
     <Dialog>
@@ -204,143 +207,293 @@ export function H2h({ game }: Props) {
           </div>
           <div className="flex w-full py-2">
             <div className="grid bg-[#1f211f] mx-3 rounded-2xl items-center grid-cols-3 w-full">
-              <div className="flex uppercase text-[#FEA624] items-center font-bai-bold  justify-center bg-[#343534] rounded-2xl py-2">
+              <div
+                onClick={() => setSelectedTab('h2h')}
+                className={`flex uppercase cursor-pointer items-center font-bai-bold justify-center py-2 rounded-2xl transition-all duration-300 ease-in-out ${
+                  selectedTab === 'h2h'
+                    ? 'bg-[#343534] text-[#FEA624]'
+                    : 'text-[#f7f7f7] hover:bg-[#2a2b2a]'
+                }`}
+              >
                 <span>h2h</span>
               </div>
-              <div className="flex justify-center">{game.home_name}</div>
-              <div className="flex justify-center">{game.away_name}</div>
-            </div>
-          </div>
-          <div className=" py-2 pb-2 px-3 grid gap-2 grid-cols-2">
-            <div className="bg-gradient-to-b items-center justify-between from-[#3f3f3f] to-[#282928] px-3 flex py-3 rounded-xl">
-              <div className="text-[#f7f7f7]">Total matches</div>
-              <div>{h2h?.h2h_total_matches}</div>
-            </div>
-            <div className="bg-gradient-to-b items-center justify-between from-[#3f3f3f] to-[#282928] px-3 flex py-3 rounded-xl">
-              <div className="text-[#ABABAB]">Draws</div>
-              <div>{h2h?.h2h_draws}</div>
-            </div>
-            <div className="bg-gradient-to-b items-center justify-between from-[#3f3f3f] to-[#282928] px-3 flex py-3 rounded-xl">
-              <div className="text-[#ABABAB]">Home wins</div>
-              <div>{h2h?.h2h_home_wins}</div>
-            </div>
-            <div className="bg-gradient-to-b items-center justify-between from-[#3f3f3f] to-[#282928] px-3 flex py-3 rounded-xl">
-              <div className="text-[#ABABAB]">Away Wins</div>
-              <div>{h2h?.h2h_away_wins}</div>
-            </div>
-            <div className="bg-gradient-to-b items-center justify-between from-[#3f3f3f] to-[#282928] px-3 flex flex-col py-1.5 gap-1 rounded-xl">
-              <div className="flex items-center justify-between w-full">
-                <div className="text-[#ABABAB]">Home Goals 1 Half</div>
-                <div className="text-[11px] text-[#ABABAB]">
-                  {parseFloat(
-                    h2h !== undefined ? h2h.h2h_home_avg_first_half_goals : '0',
-                  ).toFixed(1)}
-                  %
-                </div>
+              <div
+                onClick={() => setSelectedTab('home')}
+                className={`flex cursor-pointer justify-center py-2 rounded-2xl transition-all duration-300 ease-in-out ${
+                  selectedTab === 'home'
+                    ? 'bg-[#343534] text-[#FEA624]'
+                    : 'text-[#f7f7f7] hover:bg-[#2a2b2a]'
+                }`}
+              >
+                {game.home_name}
               </div>
-              <div className="w-full">
-                <Progress
-                  value={
-                    h2h !== undefined
-                      ? parseFloat(h2h.h2h_home_avg_first_half_goals)
-                      : 0
-                  }
-                />
-              </div>
-            </div>
-            <div className="bg-gradient-to-b items-center justify-between from-[#3f3f3f] to-[#282928] px-3 flex flex-col py-1.5 gap-1 rounded-xl">
-              <div className="flex items-center justify-between w-full">
-                <div className="text-[#ABABAB]">Home Goals 2 Half</div>
-                <div className="text-[11px] text-[#ABABAB]">
-                  {parseFloat(
-                    h2h !== undefined
-                      ? h2h.h2h_home_avg_second_half_goals
-                      : '0',
-                  ).toFixed(1)}
-                  %
-                </div>
-              </div>
-              <div className="w-full">
-                <Progress
-                  value={
-                    h2h !== undefined
-                      ? parseFloat(h2h.h2h_home_avg_second_half_goals)
-                      : 0
-                  }
-                />
-              </div>
-            </div>
-            <div className="bg-gradient-to-b items-center justify-between from-[#3f3f3f] to-[#282928] px-3 flex flex-col py-1.5 gap-1 rounded-xl">
-              <div className="flex items-center justify-between w-full">
-                <div className="text-[#ABABAB]">Away Goals 1 Half</div>
-                <div className="text-[11px] text-[#ABABAB]">
-                  {parseFloat(
-                    h2h !== undefined ? h2h.h2h_away_avg_first_half_goals : '0',
-                  ).toFixed(1)}
-                  %
-                </div>
-              </div>
-              <div className="w-full">
-                <Progress
-                  value={
-                    h2h !== undefined
-                      ? parseFloat(h2h.h2h_away_avg_first_half_goals)
-                      : 0
-                  }
-                />
-              </div>
-            </div>
-            <div className="bg-gradient-to-b items-center justify-between from-[#3f3f3f] to-[#282928] px-3 flex flex-col py-1.5 gap-1 rounded-xl">
-              <div className="flex items-center justify-between w-full">
-                <div className="text-[#ABABAB]">Away Goals 2 Half</div>
-                <div className="text-[11px] text-[#ABABAB]">
-                  {parseFloat(
-                    h2h !== undefined
-                      ? h2h.h2h_away_avg_second_half_goals
-                      : '0',
-                  ).toFixed(1)}
-                  %
-                </div>
-              </div>
-              <div className="w-full">
-                <Progress
-                  value={
-                    h2h !== undefined
-                      ? parseFloat(h2h.h2h_away_avg_second_half_goals)
-                      : 0
-                  }
-                />
+              <div
+                onClick={() => setSelectedTab('away')}
+                className={`flex cursor-pointer justify-center py-2 rounded-2xl ${
+                  selectedTab === 'away'
+                    ? 'bg-[#343534] text-[#FEA624]'
+                    : 'text-[#f7f7f7] hover:bg-[#2a2b2a]'
+                }`}
+              >
+                {game.away_name}
               </div>
             </div>
           </div>
-          <div className="pb-2 text-sm text-[#99A1AD] px-3">Last Matches</div>
-          <div className="px-3 grid grid-cols-5 gap-2.5">
-            <div className="flex flex-col  bg-[#0e642f] bg-opacity-20 rounded-lg py-1 justify-center items-center">
-              <div className="text-[#33BD68] text-[10px]">W</div>
-              <div className="text-[10px]">1-0</div>
-              <div className="text-[#9CA5AF] text-[8px]">01/01/2025</div>
+          {selectedTab === 'h2h' ? (
+            <div className=" py-2 pb-2 px-3 grid gap-2 grid-cols-2">
+              <div className="bg-gradient-to-b items-center justify-between from-[#3f3f3f] to-[#282928] px-2 flex py-3 rounded-xl">
+                <div className="text-[#f7f7f7]">Total matches</div>
+                <div className="text-[#FEA624]">{h2h?.h2h_total_matches}</div>
+              </div>
+              <div className="bg-gradient-to-b items-center justify-between from-[#3f3f3f] to-[#282928] px-2 flex py-3 rounded-xl">
+                <div className="text-[#f7f7f7]">Draws</div>
+                <div className="text-[#FEA624]">{h2h?.h2h_draws}</div>
+              </div>
+              <div className="bg-gradient-to-b items-center justify-between from-[#3f3f3f] to-[#282928] px-2 flex py-3 rounded-xl">
+                <div className="text-[#f7f7f7]">Home wins</div>
+                <div className="text-[#FEA624]">{h2h?.h2h_home_wins}</div>
+              </div>
+              <div className="bg-gradient-to-b items-center justify-between from-[#3f3f3f] to-[#282928] px-2 flex py-3 rounded-xl">
+                <div className="text-[#f7f7f7]">Away Wins</div>
+                <div className="text-[#FEA624]">{h2h?.h2h_away_wins}</div>
+              </div>
+              <div className="bg-gradient-to-b items-center justify-between from-[#3f3f3f] to-[#282928] px-2 flex py-3 rounded-xl">
+                <div className="text-[#f7f7f7] text-[11px]">
+                  Home Goals 1º Half
+                </div>
+                <div className="text-[11px] text-[#FEA624]">
+                  {h2h?.h2h_home_avg_first_half_goals}%
+                </div>
+              </div>
+              <div className="bg-gradient-to-b items-center justify-between from-[#3f3f3f] to-[#282928] px-2 flex py-3 rounded-xl">
+                <div className="text-[#f7f7f7] text-[11px]">
+                  Away Goals 1º Half
+                </div>
+                <div className="text-[11px] text-[#FEA624]">
+                  {h2h?.h2h_away_avg_second_half_goals}%
+                </div>
+              </div>
+              <div className="bg-gradient-to-b items-center justify-between from-[#3f3f3f] to-[#282928] px-2 flex py-3 rounded-xl">
+                <div className="text-[#f7f7f7] text-[11px]">
+                  Home Goals 2º Half
+                </div>
+                <div className="text-[11px] text-[#FEA624]">
+                  {h2h?.h2h_home_avg_second_half_goals}%
+                </div>
+              </div>
+              <div className="bg-gradient-to-b items-center justify-between from-[#3f3f3f] to-[#282928] px-2 flex py-3 rounded-xl">
+                <div className="text-[#f7f7f7] text-[11px]">
+                  Away Goals 2º Half
+                </div>
+                <div className="text-[11px] text-[#FEA624]">
+                  {h2h?.h2h_away_avg_second_half_goals}%
+                </div>
+              </div>
             </div>
-            <div className="flex flex-col  bg-[#7e6111] bg-opacity-20 rounded-lg py-1 justify-center items-center">
-              <div className="text-[#E1B22E] text-[10px]">L</div>
-              <div className="text-[10px]">0-0</div>
-              <div className="text-[#9CA5AF] text-[8px]">01/01/2025</div>
+          ) : selectedTab === 'away' ? (
+            <div className=" py-2 pb-2 px-3 grid gap-2 grid-cols-2">
+              <div className="bg-gradient-to-b items-center justify-between from-[#3f3f3f] to-[#282928] px-2 flex py-3 rounded-xl">
+                <div className="text-[#f7f7f7]">Total matches</div>
+                <div className="text-[#FEA624]">
+                  {h2h?.stats_away_matches_played}
+                </div>
+              </div>
+              <div className="bg-gradient-to-b items-center justify-between from-[#3f3f3f] to-[#282928] px-3 flex flex-col py-1.5 gap-1 rounded-xl">
+                <div className="flex items-center justify-between w-full">
+                  <div className="text-[#f7f7f7]">Win Rate</div>
+                  <div className="text-[11px] text-[#FEA624]">
+                    {parseFloat(
+                      h2h !== undefined ? h2h.stats_away_win_rate : '0',
+                    ).toFixed(1)}
+                    %
+                  </div>
+                </div>
+                <div className="w-full">
+                  <Progress
+                    value={
+                      h2h !== undefined
+                        ? parseFloat(h2h.stats_away_win_rate)
+                        : 0
+                    }
+                  />
+                </div>
+              </div>
+              <div className="bg-gradient-to-b items-center justify-between from-[#3f3f3f] to-[#282928] px-3 flex flex-col py-1.5 gap-1 rounded-xl">
+                <div className="flex items-center justify-between w-full">
+                  <div className="text-[#f7f7f7]">Shot Accuracy</div>
+                  <div className="text-[11px] text-[#FEA624]">
+                    {parseFloat(
+                      h2h !== undefined ? h2h.stats_away_shot_accuracy : '0',
+                    ).toFixed(1)}
+                    %
+                  </div>
+                </div>
+                <div className="w-full">
+                  <Progress
+                    value={
+                      h2h !== undefined
+                        ? parseFloat(h2h.stats_away_shot_accuracy)
+                        : 0
+                    }
+                  />
+                </div>
+              </div>
+              <div className="bg-gradient-to-b items-center justify-between from-[#3f3f3f] to-[#282928] px-3 flex flex-col py-1.5 gap-1 rounded-xl">
+                <div className="flex items-center justify-between w-full">
+                  <div className="text-[#f7f7f7]">Attack Eficiency</div>
+                  <div className="text-[11px] text-[#FEA624]">
+                    {parseFloat(
+                      h2h !== undefined
+                        ? h2h.stats_away_attack_efficiency
+                        : '0',
+                    ).toFixed(1)}
+                    %
+                  </div>
+                </div>
+                <div className="w-full">
+                  <Progress
+                    value={
+                      h2h !== undefined
+                        ? parseFloat(h2h.stats_away_attack_efficiency)
+                        : 0
+                    }
+                  />
+                </div>
+              </div>
+              <div className="bg-gradient-to-b items-center justify-between from-[#3f3f3f] to-[#282928] px-2 flex py-3 rounded-xl">
+                <div className="text-[#f7f7f7] text-[11px]">Goals Scored</div>
+                <div className="text-[11px] text-[#FEA624]">
+                  {h2h?.stats_away_avg_goals_scored}%
+                </div>
+              </div>
+              <div className="bg-gradient-to-b items-center justify-between from-[#3f3f3f] to-[#282928] px-2 flex py-3 rounded-xl">
+                <div className="text-[#f7f7f7] text-[11px]">Goals Canceled</div>
+                <div className="text-[11px] text-[#FEA624]">
+                  {h2h?.stats_away_avg_goals_conceded}%
+                </div>
+              </div>
+              <div className="bg-gradient-to-b items-center justify-between from-[#3f3f3f] to-[#282928] px-2 flex py-3 rounded-xl">
+                <div className="text-[#f7f7f7] text-[11px]">
+                  Away Goals 1º Half
+                </div>
+                <div className="text-[11px] text-[#FEA624]">
+                  {h2h?.stats_away_avg_first_half_goals}%
+                </div>
+              </div>
+              <div className="bg-gradient-to-b items-center justify-between from-[#3f3f3f] to-[#282928] px-2 flex py-3 rounded-xl">
+                <div className="text-[#f7f7f7] text-[11px]">
+                  Away Goals 2º Half
+                </div>
+                <div className="text-[11px] text-[#FEA624]">
+                  {h2h?.stats_away_avg_second_half_goals}%
+                </div>
+              </div>
             </div>
-            <div className="flex flex-col  bg-[#ff1c20] bg-opacity-10 rounded-lg py-1 justify-center items-center">
-              <div className="text-[#E0494C] text-[10px]">D</div>
-              <div className="text-[10px]">0-1</div>
-              <div className="text-[#9CA5AF] text-[8px]">01/01/2025</div>
+          ) : (
+            <div className=" py-2 pb-2 px-3 grid gap-2 grid-cols-2">
+              <div className="bg-gradient-to-b items-center justify-between from-[#3f3f3f] to-[#282928] px-2 flex py-3 rounded-xl">
+                <div className="text-[#f7f7f7]">Total matches</div>
+                <div className="text-[#FEA624]">
+                  {h2h?.stats_home_matches_played}
+                </div>
+              </div>
+              <div className="bg-gradient-to-b items-center justify-between from-[#3f3f3f] to-[#282928] px-3 flex flex-col py-1.5 gap-1 rounded-xl">
+                <div className="flex items-center justify-between w-full">
+                  <div className="text-[#f7f7f7]">Win Rate</div>
+                  <div className="text-[11px] text-[#FEA624]">
+                    {parseFloat(
+                      h2h !== undefined ? h2h.stats_home_win_rate : '0',
+                    ).toFixed(1)}
+                    %
+                  </div>
+                </div>
+                <div className="w-full">
+                  <Progress
+                    value={
+                      h2h !== undefined
+                        ? parseFloat(h2h.stats_home_win_rate)
+                        : 0
+                    }
+                  />
+                </div>
+              </div>
+              <div className="bg-gradient-to-b items-center justify-between from-[#3f3f3f] to-[#282928] px-3 flex flex-col py-1.5 gap-1 rounded-xl">
+                <div className="flex items-center justify-between w-full">
+                  <div className="text-[#f7f7f7]">Shot Accuracy</div>
+                  <div className="text-[11px] text-[#FEA624]">
+                    {parseFloat(
+                      h2h !== undefined ? h2h.stats_home_shot_accuracy : '0',
+                    ).toFixed(1)}
+                    %
+                  </div>
+                </div>
+                <div className="w-full">
+                  <Progress
+                    value={
+                      h2h !== undefined
+                        ? parseFloat(h2h.stats_home_shot_accuracy)
+                        : 0
+                    }
+                  />
+                </div>
+              </div>
+              <div className="bg-gradient-to-b items-center justify-between from-[#3f3f3f] to-[#282928] px-3 flex flex-col py-1.5 gap-1 rounded-xl">
+                <div className="flex items-center justify-between w-full">
+                  <div className="text-[#f7f7f7]">Attack Eficiency</div>
+                  <div className="text-[11px] text-[#FEA624]">
+                    {parseFloat(
+                      h2h !== undefined
+                        ? h2h.stats_home_attack_efficiency
+                        : '0',
+                    ).toFixed(1)}
+                    %
+                  </div>
+                </div>
+                <div className="w-full">
+                  <Progress
+                    value={
+                      h2h !== undefined
+                        ? parseFloat(h2h.stats_home_attack_efficiency)
+                        : 0
+                    }
+                  />
+                </div>
+              </div>
+              <div className="bg-gradient-to-b items-center justify-between from-[#3f3f3f] to-[#282928] px-2 flex py-3 rounded-xl">
+                <div className="text-[#f7f7f7] text-[11px]">Goals Scored</div>
+                <div className="text-[11px] text-[#FEA624]">
+                  {h2h?.stats_home_avg_goals_scored}%
+                </div>
+              </div>
+              <div className="bg-gradient-to-b items-center justify-between from-[#3f3f3f] to-[#282928] px-2 flex py-3 rounded-xl">
+                <div className="text-[#f7f7f7] text-[11px]">Goals Canceled</div>
+                <div className="text-[11px] text-[#FEA624]">
+                  {h2h?.stats_home_avg_goals_conceded}%
+                </div>
+              </div>
+              <div className="bg-gradient-to-b items-center justify-between from-[#3f3f3f] to-[#282928] px-2 flex py-3 rounded-xl">
+                <div className="text-[#f7f7f7] text-[11px]">
+                  Away Goals 1º Half
+                </div>
+                <div className="text-[11px] text-[#FEA624]">
+                  {h2h?.stats_home_avg_first_half_goals}%
+                </div>
+              </div>
+              <div className="bg-gradient-to-b items-center justify-between from-[#3f3f3f] to-[#282928] px-2 flex py-3 rounded-xl">
+                <div className="text-[#f7f7f7] text-[11px]">
+                  Away Goals 2º Half
+                </div>
+                <div className="text-[11px] text-[#FEA624]">
+                  {h2h?.stats_home_avg_second_half_goals}%
+                </div>
+              </div>
             </div>
-            <div className="flex flex-col  bg-[#ff1c20] bg-opacity-10 rounded-lg py-1 justify-center items-center">
-              <div className="text-[#E0494C] text-[10px]">D</div>
-              <div className="text-[10px]">0-1</div>
-              <div className="text-[#9CA5AF] text-[8px]">01/01/2025</div>
-            </div>
-            <div className="flex flex-col  bg-[#ff1c20] bg-opacity-10 rounded-lg py-1 justify-center items-center">
-              <div className="text-[#E0494C] text-[10px]">D</div>
-              <div className="text-[10px]">0-1</div>
-              <div className="text-[#9CA5AF] text-[8px]">01/01/2025</div>
-            </div>
-          </div>
+          )}
+          {selectedTab === 'h2h' ? null : selectedTab === 'home' ? (
+            <LastMatches lastFive={h2h?.stats_home_last_five} />
+          ) : (
+            <LastMatches lastFive={h2h?.stats_away_last_five} />
+          )}
         </div>
       </DialogContent>
     </Dialog>
