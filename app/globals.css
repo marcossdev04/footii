@@ -13,6 +13,32 @@ body {
 }
 
 @layer base {
+
+  @keyframes textPulse {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.8;
+    }
+  }
+  
+  .animate-text-pulse {
+    animation: textPulse 1.3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  @keyframes tabTextPulse {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.8;
+    }
+  }
+  
+  .tab-text-pulse {
+    animation: tabTextPulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
   @keyframes fadeIn {
     from {
       opacity: 0;
