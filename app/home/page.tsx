@@ -122,8 +122,8 @@ export default function Home() {
       ) : (
         <>
           <div className="pt-60">
-            {allGames?.map((game, index) => {
-              return <H2h key={index} game={game} />
+            {allGames?.map((game) => {
+              return <H2h key={game.match_id} game={game} />
             })}
           </div>
           <div ref={observerTarget} className="py-4">

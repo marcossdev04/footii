@@ -7,6 +7,9 @@ import noImage from '@/assets/noImage.png'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { Progress } from './ui/progress'
+import { api } from '@/api/api'
+import { useQuery } from 'react-query'
+import { h2h } from '@/types/h2h'
 
 interface Props {
   game: Bet
@@ -16,6 +19,15 @@ type ResultType = 'Black' | 'Green' | 'Orange' | 'Red'
 export function H2h({ game }: Props) {
   const [betText, setBetText] = useState('Bet')
 
+  async function fetchH2h() {
+    const response = await api.get(`/results/h2h/${game.match_id}`)
+    return response.data
+  }
+  const { data: h2h } = useQuery<h2h>(['getH2h', game.match_id], fetchH2h, {
+    refetchOnWindowFocus: false,
+    staleTime: Infinity,
+  })
+  console.log(h2h)
   useEffect(() => {
     const interval = setInterval(() => {
       setBetText((prev) => (prev === 'Bet' ? 'Here' : 'Bet'))
@@ -201,56 +213,104 @@ export function H2h({ game }: Props) {
           </div>
           <div className=" py-2 pb-2 px-3 grid gap-2 grid-cols-2">
             <div className="bg-gradient-to-b items-center justify-between from-[#3f3f3f] to-[#282928] px-3 flex py-3 rounded-xl">
-              <div className="text-[#ABABAB]">Total matches</div>
-              <div>16</div>
-            </div>
-            <div className="bg-gradient-to-b items-center justify-between from-[#3f3f3f] to-[#282928] px-3 flex flex-col py-1.5 gap-1 rounded-xl">
-              <div className="flex items-center justify-between w-full">
-                <div className="text-[#ABABAB]">Home wins</div>
-                <div className="text-[11px] text-[#ABABAB]">73.0%</div>
-              </div>
-              <div className="w-full">
-                <Progress value={73} />
-              </div>
-            </div>
-            <div className="bg-gradient-to-b items-center justify-between from-[#3f3f3f] to-[#282928] px-3 flex flex-col py-1.5 gap-1 rounded-xl">
-              <div className="flex items-center justify-between w-full">
-                <div className="text-[#ABABAB]">Home wins</div>
-                <div className="text-[11px] text-[#ABABAB]">73.0%</div>
-              </div>
-              <div className="w-full">
-                <Progress value={73} />
-              </div>
+              <div className="text-[#f7f7f7]">Total matches</div>
+              <div>{h2h?.h2h_total_matches}</div>
             </div>
             <div className="bg-gradient-to-b items-center justify-between from-[#3f3f3f] to-[#282928] px-3 flex py-3 rounded-xl">
-              <div className="text-[#ABABAB]">Total matches</div>
-              <div>16</div>
+              <div className="text-[#ABABAB]">Draws</div>
+              <div>{h2h?.h2h_draws}</div>
             </div>
             <div className="bg-gradient-to-b items-center justify-between from-[#3f3f3f] to-[#282928] px-3 flex py-3 rounded-xl">
-              <div className="text-[#ABABAB]">Total matches</div>
-              <div>16</div>
+              <div className="text-[#ABABAB]">Home wins</div>
+              <div>{h2h?.h2h_home_wins}</div>
+            </div>
+            <div className="bg-gradient-to-b items-center justify-between from-[#3f3f3f] to-[#282928] px-3 flex py-3 rounded-xl">
+              <div className="text-[#ABABAB]">Away Wins</div>
+              <div>{h2h?.h2h_away_wins}</div>
             </div>
             <div className="bg-gradient-to-b items-center justify-between from-[#3f3f3f] to-[#282928] px-3 flex flex-col py-1.5 gap-1 rounded-xl">
               <div className="flex items-center justify-between w-full">
-                <div className="text-[#ABABAB]">Home wins</div>
-                <div className="text-[11px] text-[#ABABAB]">73.0%</div>
+                <div className="text-[#ABABAB]">Home Goals 1 Half</div>
+                <div className="text-[11px] text-[#ABABAB]">
+                  {parseFloat(
+                    h2h !== undefined ? h2h.h2h_home_avg_first_half_goals : '0',
+                  ).toFixed(1)}
+                  %
+                </div>
               </div>
               <div className="w-full">
-                <Progress value={73} />
+                <Progress
+                  value={
+                    h2h !== undefined
+                      ? parseFloat(h2h.h2h_home_avg_first_half_goals)
+                      : 0
+                  }
+                />
               </div>
             </div>
             <div className="bg-gradient-to-b items-center justify-between from-[#3f3f3f] to-[#282928] px-3 flex flex-col py-1.5 gap-1 rounded-xl">
               <div className="flex items-center justify-between w-full">
-                <div className="text-[#ABABAB]">Home wins</div>
-                <div className="text-[11px] text-[#ABABAB]">73.0%</div>
+                <div className="text-[#ABABAB]">Home Goals 2 Half</div>
+                <div className="text-[11px] text-[#ABABAB]">
+                  {parseFloat(
+                    h2h !== undefined
+                      ? h2h.h2h_home_avg_second_half_goals
+                      : '0',
+                  ).toFixed(1)}
+                  %
+                </div>
               </div>
               <div className="w-full">
-                <Progress value={73} />
+                <Progress
+                  value={
+                    h2h !== undefined
+                      ? parseFloat(h2h.h2h_home_avg_second_half_goals)
+                      : 0
+                  }
+                />
               </div>
             </div>
-            <div className="bg-gradient-to-b items-center justify-between from-[#3f3f3f] to-[#282928] px-3 flex py-3 rounded-xl">
-              <div className="text-[#ABABAB]">Total matches</div>
-              <div>16</div>
+            <div className="bg-gradient-to-b items-center justify-between from-[#3f3f3f] to-[#282928] px-3 flex flex-col py-1.5 gap-1 rounded-xl">
+              <div className="flex items-center justify-between w-full">
+                <div className="text-[#ABABAB]">Away Goals 1 Half</div>
+                <div className="text-[11px] text-[#ABABAB]">
+                  {parseFloat(
+                    h2h !== undefined ? h2h.h2h_away_avg_first_half_goals : '0',
+                  ).toFixed(1)}
+                  %
+                </div>
+              </div>
+              <div className="w-full">
+                <Progress
+                  value={
+                    h2h !== undefined
+                      ? parseFloat(h2h.h2h_away_avg_first_half_goals)
+                      : 0
+                  }
+                />
+              </div>
+            </div>
+            <div className="bg-gradient-to-b items-center justify-between from-[#3f3f3f] to-[#282928] px-3 flex flex-col py-1.5 gap-1 rounded-xl">
+              <div className="flex items-center justify-between w-full">
+                <div className="text-[#ABABAB]">Away Goals 2 Half</div>
+                <div className="text-[11px] text-[#ABABAB]">
+                  {parseFloat(
+                    h2h !== undefined
+                      ? h2h.h2h_away_avg_second_half_goals
+                      : '0',
+                  ).toFixed(1)}
+                  %
+                </div>
+              </div>
+              <div className="w-full">
+                <Progress
+                  value={
+                    h2h !== undefined
+                      ? parseFloat(h2h.h2h_away_avg_second_half_goals)
+                      : 0
+                  }
+                />
+              </div>
             </div>
           </div>
           <div className="pb-2 text-sm text-[#99A1AD] px-3">Last Matches</div>
