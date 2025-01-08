@@ -11,7 +11,7 @@ export function Stats() {
     const formattedStartDate = formatDateToYYYYMMDD(startDate)
     const formattedEndDate = formatDateToYYYYMMDD(endDate)
     const response = await api.get(
-      `/results/?match_date_after=${formattedStartDate}&match_date_before=${formattedEndDate}`,
+      `/results/?match_date_after=${formattedStartDate}&match_date_before=${formattedEndDate}&is_product_pro=true`,
     )
     return response.data.stats
   }

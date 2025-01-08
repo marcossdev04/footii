@@ -90,7 +90,7 @@ export function HeaderTop({ onTabChange }: HeaderTopProps) {
   }
 
   return (
-    <div className="flex fixed w-full z-10 pt-1 pb-2 top-0 items-center bg-[#272927] text-white justify-between px-5">
+    <div className="flex fixed max-w-[450px] w-full z-10 pt-1 pb-2 top-0 items-center bg-[#272927] text-white justify-between px-5">
       <div>
         <Image src={logo} width={22} alt="logo" />
       </div>

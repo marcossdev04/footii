@@ -69,7 +69,7 @@ export default function Home() {
 
   return (
     <div className="w-full pb-[70px] relative">
-      <div className="fixed top-10 left-0 right-0 rounded-b-lg z-50 bg-[#141414]">
+      <div className="fixed max-w-[450px] mx-auto top-10 left-0 right-0 rounded-b-lg z-50 bg-[#141414]">
         <Carrousel />
         <Stats />
       </div>
