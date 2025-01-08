@@ -22,6 +22,33 @@ body {
       opacity: 0.8;
     }
   }
+
+  @keyframes moveLeftH {
+    0%, 100% {
+      transform: translateX(2.1px);
+    }
+    50% {
+      transform: translateX(-1.4px);
+    }
+  }
+  
+  @keyframes moveRightH {
+    0%, 100% {
+      transform: translateX(-2.1px);
+    }
+    50% {
+      transform: translateX(1.4px);
+    }
+  }
+  
+  
+  .animate-left-h {
+    animation: moveLeftH 0.8s ease-in-out infinite;
+  }
+  
+  .animate-right-h {
+    animation: moveRightH 0.8s ease-in-out infinite;
+  }
   
   .animate-text-pulse {
     animation: textPulse 1.3s cubic-bezier(0.4, 0, 0.6, 1) infinite;

@@ -34,7 +34,9 @@ export function LastMatches({ lastFive }: Props) {
               >
                 {last.result}
               </div>
-              <div className="text-[10px]">1-0</div>
+              <div className="text-[10px]">
+                {last.goals_scored}-{last.goals_conceded}
+              </div>
               <div className="text-[#9CA5AF] text-[8px]">
                 {formatDate(last.date)}
               </div>
