@@ -19,7 +19,7 @@ export default function Home() {
     const formattedStartDate = formatDateToYYYYMMDD(startDate)
     const formattedEndDate = formatDateToYYYYMMDD(endDate)
     const response = await api.get(
-      `/results/?match_date_after=${formattedStartDate}&match_date_before=${formattedEndDate}&page=${pageParam}`,
+      `/results/?match_date_after=${formattedStartDate}&match_date_before=${formattedEndDate}&page=${pageParam}&is_product_pro=true`,
     )
     return response.data
   }

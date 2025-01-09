@@ -257,50 +257,50 @@ export function H2h({ game }: Props) {
             <div className=" py-2 pb-2 px-3 grid gap-2 grid-cols-2">
               <div className="bg-gradient-to-b items-center justify-between from-[#3f3f3f] to-[#282928] px-2 flex py-3 rounded-xl">
                 <div className="text-[#f7f7f7]">Total matches</div>
-                <div className=" ">{h2h?.h2h_total_matches}</div>
+                <div className="text-[#FEA624] ">{h2h?.h2h_total_matches}</div>
               </div>
               <div className="bg-gradient-to-b items-center justify-between from-[#3f3f3f] to-[#282928] px-2 flex py-3 rounded-xl">
                 <div className="text-[#f7f7f7]">Draws</div>
-                <div className=" ">{h2h?.h2h_draws}</div>
+                <div className="text-[#FEA624] ">{h2h?.h2h_draws}</div>
               </div>
               <div className="bg-gradient-to-b items-center justify-between from-[#3f3f3f] to-[#282928] px-2 flex py-3 rounded-xl">
                 <div className="text-[#f7f7f7]">Home wins</div>
-                <div className="">{h2h?.h2h_home_wins}</div>
+                <div className="text-[#FEA624]">{h2h?.h2h_home_wins}</div>
               </div>
               <div className="bg-gradient-to-b items-center justify-between from-[#3f3f3f] to-[#282928] px-2 flex py-3 rounded-xl">
                 <div className="text-[#f7f7f7]">Away Wins</div>
-                <div className=" ">{h2h?.h2h_away_wins}</div>
+                <div className="text-[#FEA624] ">{h2h?.h2h_away_wins}</div>
               </div>
               <div className="bg-gradient-to-b items-center justify-between from-[#3f3f3f] to-[#282928] px-2 flex py-3 rounded-xl">
                 <div className="text-[#f7f7f7] text-[11px] ">
                   Home Goals 1º Half
                 </div>
-                <div className="text-[11px]  ">
-                  {h2h?.h2h_home_avg_first_half_goals}%
+                <div className="text-[11px] text-[#FEA624] ">
+                  {h2h?.h2h_home_avg_first_half_goals}
                 </div>
               </div>
               <div className="bg-gradient-to-b items-center justify-between from-[#3f3f3f] to-[#282928] px-2 flex py-3 rounded-xl">
                 <div className="text-[#f7f7f7] text-[11px]">
                   Away Goals 1º Half
                 </div>
-                <div className="text-[11px] ">
-                  {h2h?.h2h_away_avg_second_half_goals}%
+                <div className="text-[11px] text-[#FEA624]">
+                  {h2h?.h2h_away_avg_second_half_goals}
                 </div>
               </div>
               <div className="bg-gradient-to-b items-center justify-between from-[#3f3f3f] to-[#282928] px-2 flex py-3 rounded-xl">
                 <div className="text-[#f7f7f7] text-[11px] ">
                   Home Goals 2º Half
                 </div>
-                <div className="text-[11px]  ">
-                  {h2h?.h2h_home_avg_second_half_goals}%
+                <div className="text-[11px]  text-[#FEA624]">
+                  {h2h?.h2h_home_avg_second_half_goals}
                 </div>
               </div>
               <div className="bg-gradient-to-b items-center justify-between from-[#3f3f3f] to-[#282928] px-2 flex py-3 rounded-xl">
                 <div className="text-[#f7f7f7] text-[11px]">
                   Away Goals 2º Half
                 </div>
-                <div className="text-[11px]  ">
-                  {h2h?.h2h_away_avg_second_half_goals}%
+                <div className="text-[11px] text-[#FEA624]">
+                  {h2h?.h2h_away_avg_second_half_goals}
                 </div>
               </div>
             </div>
