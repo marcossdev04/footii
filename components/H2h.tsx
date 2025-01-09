@@ -234,7 +234,7 @@ export function H2h({ game }: Props) {
                 onClick={() => setSelectedTab('home')}
                 className={`px-3 cursor-pointer truncate text-center py-2 rounded-2xl transition-all duration-300 ease-in-out ${
                   selectedTab === 'home'
-                    ? 'bg-[#343534] text-[#FEA624]'
+                    ? 'bg-[#343534] '
                     : 'text-[#f7f7f7] hover:bg-[#2a2b2a]'
                 }`}
               >
@@ -245,7 +245,7 @@ export function H2h({ game }: Props) {
                 onClick={() => setSelectedTab('away')}
                 className={`px-3 cursor-pointer truncate text-center py-2 rounded-2xl ${
                   selectedTab === 'away'
-                    ? 'bg-[#343534] text-[#FEA624]'
+                    ? 'bg-[#343534] '
                     : 'text-[#f7f7f7] hover:bg-[#2a2b2a]'
                 }`}
               >
@@ -257,25 +257,25 @@ export function H2h({ game }: Props) {
             <div className=" py-2 pb-2 px-3 grid gap-2 grid-cols-2">
               <div className="bg-gradient-to-b items-center justify-between from-[#3f3f3f] to-[#282928] px-2 flex py-3 rounded-xl">
                 <div className="text-[#f7f7f7]">Total matches</div>
-                <div className="text-[#FEA624] ">{h2h?.h2h_total_matches}</div>
+                <div className=" ">{h2h?.h2h_total_matches}</div>
               </div>
               <div className="bg-gradient-to-b items-center justify-between from-[#3f3f3f] to-[#282928] px-2 flex py-3 rounded-xl">
                 <div className="text-[#f7f7f7]">Draws</div>
-                <div className="text-[#FEA624] ">{h2h?.h2h_draws}</div>
+                <div className=" ">{h2h?.h2h_draws}</div>
               </div>
               <div className="bg-gradient-to-b items-center justify-between from-[#3f3f3f] to-[#282928] px-2 flex py-3 rounded-xl">
                 <div className="text-[#f7f7f7]">Home wins</div>
-                <div className="text-[#FEA624]">{h2h?.h2h_home_wins}</div>
+                <div className="">{h2h?.h2h_home_wins}</div>
               </div>
               <div className="bg-gradient-to-b items-center justify-between from-[#3f3f3f] to-[#282928] px-2 flex py-3 rounded-xl">
                 <div className="text-[#f7f7f7]">Away Wins</div>
-                <div className="text-[#FEA624] ">{h2h?.h2h_away_wins}</div>
+                <div className=" ">{h2h?.h2h_away_wins}</div>
               </div>
               <div className="bg-gradient-to-b items-center justify-between from-[#3f3f3f] to-[#282928] px-2 flex py-3 rounded-xl">
                 <div className="text-[#f7f7f7] text-[11px] ">
                   Home Goals 1º Half
                 </div>
-                <div className="text-[11px] text-[#FEA624] ">
+                <div className="text-[11px]  ">
                   {h2h?.h2h_home_avg_first_half_goals}%
                 </div>
               </div>
@@ -283,7 +283,7 @@ export function H2h({ game }: Props) {
                 <div className="text-[#f7f7f7] text-[11px]">
                   Away Goals 1º Half
                 </div>
-                <div className="text-[11px] text-[#FEA624] ">
+                <div className="text-[11px] ">
                   {h2h?.h2h_away_avg_second_half_goals}%
                 </div>
               </div>
@@ -291,7 +291,7 @@ export function H2h({ game }: Props) {
                 <div className="text-[#f7f7f7] text-[11px] ">
                   Home Goals 2º Half
                 </div>
-                <div className="text-[11px] text-[#FEA624] ">
+                <div className="text-[11px]  ">
                   {h2h?.h2h_home_avg_second_half_goals}%
                 </div>
               </div>
@@ -299,7 +299,7 @@ export function H2h({ game }: Props) {
                 <div className="text-[#f7f7f7] text-[11px]">
                   Away Goals 2º Half
                 </div>
-                <div className="text-[11px] text-[#FEA624] ">
+                <div className="text-[11px]  ">
                   {h2h?.h2h_away_avg_second_half_goals}%
                 </div>
               </div>
@@ -308,14 +308,12 @@ export function H2h({ game }: Props) {
             <div className=" py-2 pb-2 px-3 grid gap-2 grid-cols-2">
               <div className="bg-gradient-to-b items-center justify-between from-[#3f3f3f] to-[#282928] px-2 flex py-3 rounded-xl">
                 <div className="text-[#f7f7f7]">Total matches</div>
-                <div className="text-[#FEA624] ">
-                  {h2h?.stats_away_matches_played}
-                </div>
+                <div className="">{h2h?.stats_away_matches_played}</div>
               </div>
               <div className="bg-gradient-to-b items-center justify-between from-[#3f3f3f] to-[#282928] px-3 flex flex-col py-1.5 gap-1 rounded-xl">
                 <div className="flex items-center justify-between w-full">
                   <div className="text-[#f7f7f7]">Win Rate</div>
-                  <div className="text-[11px] text-[#FEA624] ">
+                  <div className="text-[11px]  ">
                     {parseFloat(
                       h2h !== undefined ? h2h.stats_away_win_rate : '0',
                     ).toFixed(1)}
@@ -335,7 +333,7 @@ export function H2h({ game }: Props) {
               <div className="bg-gradient-to-b items-center justify-between from-[#3f3f3f] to-[#282928] px-3 flex flex-col py-1.5 gap-1 rounded-xl">
                 <div className="flex items-center justify-between w-full">
                   <div className="text-[#f7f7f7]">Shot Accuracy</div>
-                  <div className="text-[11px] text-[#FEA624] ">
+                  <div className="text-[11px]  ">
                     {parseFloat(
                       h2h !== undefined ? h2h.stats_away_shot_accuracy : '0',
                     ).toFixed(1)}
@@ -355,7 +353,7 @@ export function H2h({ game }: Props) {
               <div className="bg-gradient-to-b items-center justify-between from-[#3f3f3f] to-[#282928] px-3 flex flex-col py-1.5 gap-1 rounded-xl">
                 <div className="flex items-center justify-between w-full">
                   <div className="text-[#f7f7f7]">Attack Eficiency</div>
-                  <div className="text-[11px] text-[#FEA624] ">
+                  <div className="text-[11px]  ">
                     {parseFloat(
                       h2h !== undefined
                         ? h2h.stats_away_attack_efficiency
@@ -376,13 +374,13 @@ export function H2h({ game }: Props) {
               </div>
               <div className="bg-gradient-to-b items-center justify-between from-[#3f3f3f] to-[#282928] px-2 flex py-3 rounded-xl">
                 <div className="text-[#f7f7f7] text-[11px]">Goals Scored</div>
-                <div className="text-[11px] text-[#FEA624] ">
+                <div className="text-[11px]  ">
                   {h2h?.stats_away_avg_goals_scored}
                 </div>
               </div>
               <div className="bg-gradient-to-b items-center justify-between from-[#3f3f3f] to-[#282928] px-2 flex py-3 rounded-xl">
                 <div className="text-[#f7f7f7] text-[11px]">Goals Conceded</div>
-                <div className="text-[11px] text-[#FEA624] ">
+                <div className="text-[11px]  ">
                   {h2h?.stats_away_avg_goals_conceded}
                 </div>
               </div>
@@ -390,7 +388,7 @@ export function H2h({ game }: Props) {
                 <div className="text-[#f7f7f7] text-[11px]">
                   Away Goals 1º Half
                 </div>
-                <div className="text-[11px] text-[#FEA624] ">
+                <div className="text-[11px]  ">
                   {h2h?.stats_away_avg_first_half_goals}
                 </div>
               </div>
@@ -398,7 +396,7 @@ export function H2h({ game }: Props) {
                 <div className="text-[#f7f7f7] text-[11px]">
                   Away Goals 2º Half
                 </div>
-                <div className="text-[11px] text-[#FEA624] ">
+                <div className="text-[11px]  ">
                   {h2h?.stats_away_avg_second_half_goals}
                 </div>
               </div>
@@ -407,14 +405,12 @@ export function H2h({ game }: Props) {
             <div className=" py-2 pb-2 px-3 grid gap-2 grid-cols-2">
               <div className="bg-gradient-to-b items-center justify-between from-[#3f3f3f] to-[#282928] px-2 flex py-3 rounded-xl">
                 <div className="text-[#f7f7f7]">Total matches</div>
-                <div className="text-[#FEA624] ">
-                  {h2h?.stats_home_matches_played}
-                </div>
+                <div className=" ">{h2h?.stats_home_matches_played}</div>
               </div>
               <div className="bg-gradient-to-b items-center justify-between from-[#3f3f3f] to-[#282928] px-3 flex flex-col py-1.5 gap-1 rounded-xl">
                 <div className="flex items-center justify-between w-full">
                   <div className="text-[#f7f7f7]">Win Rate</div>
-                  <div className="text-[11px] text-[#FEA624] ">
+                  <div className="text-[11px]  ">
                     {parseFloat(
                       h2h !== undefined ? h2h.stats_home_win_rate : '0',
                     ).toFixed(1)}
@@ -434,7 +430,7 @@ export function H2h({ game }: Props) {
               <div className="bg-gradient-to-b items-center justify-between from-[#3f3f3f] to-[#282928] px-3 flex flex-col py-1.5 gap-1 rounded-xl">
                 <div className="flex items-center justify-between w-full">
                   <div className="text-[#f7f7f7]">Shot Accuracy</div>
-                  <div className="text-[11px] text-[#FEA624] ">
+                  <div className="text-[11px]  ">
                     {parseFloat(
                       h2h !== undefined ? h2h.stats_home_shot_accuracy : '0',
                     ).toFixed(1)}
@@ -454,7 +450,7 @@ export function H2h({ game }: Props) {
               <div className="bg-gradient-to-b items-center justify-between from-[#3f3f3f] to-[#282928] px-3 flex flex-col py-1.5 gap-1 rounded-xl">
                 <div className="flex items-center justify-between w-full">
                   <div className="text-[#f7f7f7]">Attack Eficiency</div>
-                  <div className="text-[11px] text-[#FEA624]">
+                  <div className="text-[11px] ">
                     {parseFloat(
                       h2h !== undefined
                         ? h2h.stats_home_attack_efficiency
@@ -475,13 +471,13 @@ export function H2h({ game }: Props) {
               </div>
               <div className="bg-gradient-to-b items-center justify-between from-[#3f3f3f] to-[#282928] px-2 flex py-3 rounded-xl">
                 <div className="text-[#f7f7f7] text-[11px]">Goals Scored</div>
-                <div className="text-[11px] text-[#FEA624] ">
+                <div className="text-[11px]">
                   {h2h?.stats_home_avg_goals_scored}
                 </div>
               </div>
               <div className="bg-gradient-to-b items-center justify-between from-[#3f3f3f] to-[#282928] px-2 flex py-3 rounded-xl">
                 <div className="text-[#f7f7f7] text-[11px]">Goals Conceded</div>
-                <div className="text-[11px] text-[#FEA624] ">
+                <div className="text-[11px]  ">
                   {h2h?.stats_home_avg_goals_conceded}
                 </div>
               </div>
@@ -489,7 +485,7 @@ export function H2h({ game }: Props) {
                 <div className="text-[#f7f7f7] text-[11px]">
                   Away Goals 1º Half
                 </div>
-                <div className="text-[11px] text-[#FEA624] ">
+                <div className="text-[11px]  ">
                   {h2h?.stats_home_avg_first_half_goals}
                 </div>
               </div>
@@ -497,7 +493,7 @@ export function H2h({ game }: Props) {
                 <div className="text-[#f7f7f7] text-[11px]">
                   Away Goals 2º Half
                 </div>
-                <div className="text-[11px] text-[#FEA624] ">
+                <div className="text-[11px] ">
                   {h2h?.stats_home_avg_second_half_goals}
                 </div>
               </div>
