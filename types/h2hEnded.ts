@@ -1,0 +1,30 @@
+export interface H2hEndedInteface {
+  match_id: string
+  match_datetime: string
+  home_team_id: string
+  away_team_id: string
+  home_goals: number
+  away_goals: number
+  home_first_half_goals: number
+  away_first_half_goals: number
+  home_second_half_goals: number
+  away_second_half_goals: number
+  second_half_comeback: true
+  home_possession: number
+  away_possession: number
+  home_attacks: number
+  away_attacks: number
+  home_dangerous_attacks: number
+  away_dangerous_attacks: number
+  home_shots_on_target: number
+  away_shots_on_target: number
+  home_total_shots: number
+  away_total_shots: number
+  home_fouls: number
+  away_fouls: number
+  home_corners: number
+  away_corners: number
+  created_at: string
+  updated_at: string
+  source_updated_at: string
+}

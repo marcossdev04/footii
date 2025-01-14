@@ -69,44 +69,48 @@ export default function RootLayout({
         </head>
       )}
 
-      <body
-        className={`${baiLight.className} ${baiBold.variable} ${
-          pathname === '/' ||
-          pathname === '/login' ||
-          pathname === '/register' ||
-          pathname === '/user'
-            ? null
-            : 'mt-12'
-        } antialiased  bg-[#141414] max-w-[450px] mx-auto`}
-      >
-        <QueryClientProvider client={queryClient}>
-          <AuthContextProvider>
-            <FilterProvider>
-              <ThemeProvider
-                attribute="class"
-                defaultTheme="dark"
-                enableSystem
-                disableTransitionOnChange
-              >
-                {pathname === '/' ||
-                pathname === '/login' ||
-                pathname === '/register' ||
-                pathname === '/user' ||
-                pathname === '/news' ? null : (
-                  <HeaderTop />
-                )}
-                {pathname === '/news' ? <FootiNewsTop /> : null}
-                {children}
-                {pathname === '/' ||
-                pathname === '/register' ||
-                pathname === '/login' ? null : (
-                  <Header padding={shouldAddPadding} />
-                )}
-              </ThemeProvider>
-              <ToastContainer />
-            </FilterProvider>
-          </AuthContextProvider>
-        </QueryClientProvider>
+      <body className="bg-[#141414]">
+        <div className="relative min-h-screen flex justify-center">
+          <div
+            className={`${baiLight.className} ${baiBold.variable} ${
+              pathname === '/' ||
+              pathname === '/login' ||
+              pathname === '/register' ||
+              pathname === '/user'
+                ? ''
+                : 'mt-12'
+            } antialiased w-full max-w-[450px]`}
+          >
+            <QueryClientProvider client={queryClient}>
+              <AuthContextProvider>
+                <FilterProvider>
+                  <ThemeProvider
+                    attribute="class"
+                    defaultTheme="dark"
+                    enableSystem
+                    disableTransitionOnChange
+                  >
+                    {pathname === '/' ||
+                    pathname === '/login' ||
+                    pathname === '/register' ||
+                    pathname === '/user' ||
+                    pathname === '/news' ? null : (
+                      <HeaderTop />
+                    )}
+                    {pathname === '/news' ? <FootiNewsTop /> : null}
+                    {children}
+                    {pathname === '/' ||
+                    pathname === '/register' ||
+                    pathname === '/login' ? null : (
+                      <Header padding={shouldAddPadding} />
+                    )}
+                  </ThemeProvider>
+                  <ToastContainer />
+                </FilterProvider>
+              </AuthContextProvider>
+            </QueryClientProvider>
+          </div>
+        </div>
       </body>
     </html>
   )
