@@ -79,7 +79,7 @@ export default function RootLayout({
               pathname === '/user'
                 ? ''
                 : 'mt-12'
-            } antialiased w-full max-w-[450px]`}
+            } antialiased w-full ${pathname === '/' ? 'max-w-[1920px]' : 'max-w-[450px]'} `}
           >
             <QueryClientProvider client={queryClient}>
               <AuthContextProvider>

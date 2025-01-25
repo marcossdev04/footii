@@ -714,9 +714,7 @@ export function H2h({ game }: Props) {
                 <div className="items-center justify-center flex-col px-2 flex py-0 rounded-xl">
                   <div className="justify-between w-full flex">
                     <div className="text-[10px]">{h2hEnded?.home_attacks}</div>
-                    <div className="text-[#f7f7f7] text-[11px]">
-                      Attacks {game.match_id}
-                    </div>
+                    <div className="text-[#f7f7f7] text-[11px]">Attacks</div>
                     <div className="text-[10px]">{h2hEnded?.away_attacks}</div>
                   </div>
                   <div className="flex gap-0.5 w-full">
