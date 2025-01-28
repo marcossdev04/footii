@@ -39,7 +39,7 @@ export function UserStep() {
         />
         <div className="absolute inset-0 bg-gradient-to-r from-teal-500 to-emerald-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
       </DialogTrigger>
-      <DialogContent className="md:max-w-[800px] overflow-auto h-[90vh] bg-[#1D211D]">
+      <DialogContent className="md:max-w-[800px] overflow-auto md:h-fit h-[90vh] bg-[#1D211D]">
         {step === 0 && (
           <Step1
             onStepChange={handleStepChange}

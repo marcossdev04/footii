@@ -65,7 +65,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     }
     api.defaults.headers.Authorization = ''
     setIsAuthenticated(false)
-    push('/login')
+    push('/')
   }, [push, removeCookie])
 
   useEffect(() => {
@@ -81,8 +81,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     }
 
     const handleCookieChange = async () => {
-      const isPublicRoute =
-        pathname === '/' || pathname === '/register' || pathname === '/login'
+      const isPublicRoute = pathname === '/'
 
       if (!cookies.token_footiapp) {
         // Tenta refresh antes de deslogar

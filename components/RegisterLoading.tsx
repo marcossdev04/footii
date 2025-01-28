@@ -30,7 +30,7 @@ const LoadingOverlay = ({ onLoadingComplete }: Props) => {
   }, [onLoadingComplete])
 
   return (
-    <div className="w-full h-full absolute top-0 left-0 bg-[#131413] flex flex-col justify-center items-center z-50 overflow-hidden">
+    <div className="w-full h-[100vh] absolute top-0 left-0 bg-[#131413] flex flex-col justify-center items-center z-50 overflow-hidden">
       {/* Ellipses container */}
       <div className="w-full h-full absolute overflow-hidden">
         {/* Ellipse 1 */}

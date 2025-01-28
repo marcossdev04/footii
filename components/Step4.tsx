@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { data } from '@/utils/LeaguesData'
-import { Trophy } from 'lucide-react'
+import { Trophy, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Register } from './Register'
+import { DialogClose } from './ui/dialog'
 
 interface Props {
   onStepChange: (step: 0 | 1 | 2 | 3) => void
@@ -37,7 +38,10 @@ export function Step4({ betAmount, selectedCountry }: Props) {
   }, [betAmount, selectedCountry])
   return (
     <div className="md:px-5 py-2 flex flex-col gap-5">
-      <div className="flex flex-col gap-3 items-center">
+      <DialogClose className="absolute top-5 right-2 text-red-500">
+        <X size={30} />
+      </DialogClose>
+      <div className="flex flex-col gap-3 items-center px-2">
         <div className="md:text-5xl text-2xl text-center font-bai-bold">
           They say past performance{' '}
           <span className="text-emerald-500">

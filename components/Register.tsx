@@ -11,16 +11,16 @@ import {
 } from './ui/dialog'
 import { useAuth } from '@/contexts/useAuth'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Form, FormProvider, useForm } from 'react-hook-form'
+import { FormProvider, useForm } from 'react-hook-form'
 import {
   Mail,
   EyeOff,
   Eye,
   Lock,
-  ArrowRight,
   User,
   Phone,
   X,
+  ArrowRight,
 } from 'lucide-react'
 import { GiSoccerBall } from 'react-icons/gi'
 import {
@@ -58,6 +58,7 @@ const registerSchema = z
     message: 'Passwords do not match',
     path: ['confirmPassword'],
   })
+
 type RegisterFormValues = z.infer<typeof registerSchema>
 
 export function Register() {
@@ -72,6 +73,7 @@ export function Register() {
     }
   }, [isLoading])
 
+  // Função para ser chamada quando a animação terminar
   const handleLoadingComplete = () => {
     if (!isLoading) {
       setTimeout(() => {
@@ -99,6 +101,7 @@ export function Register() {
       phone_number: data.phone,
     })
   }
+
   return (
     <Dialog>
       <DialogTrigger
@@ -115,11 +118,13 @@ export function Register() {
           className={`w-5 h-5 relative z-10 transition-all duration-300 ${isHovered ? 'translate-x-1 scale-110' : ''}`}
         />
       </DialogTrigger>
-      <DialogContent className="max-w-[95vw] bg-[#1F211F]/50 backdrop-blur-sm border-y-2 border-x-[#1D1E1B] border-y-default">
+      <DialogContent
+        className={` ${showLoading ? 'h-[100vh] max-w-[100vw]' : 'max-w-[95vw] max-h-[90vh]'} md:max-w-[450px] bg-[#1F211F]/50 backdrop-blur-sm border-y-2 border-x-[#1D1E1B] border-y-default`}
+      >
         {showLoading && (
           <LoadingOverlay onLoadingComplete={handleLoadingComplete} />
         )}
-        <DialogClose className="absolute top-2 right-2 text-red-500">
+        <DialogClose className="absolute top-6 right-2 text-red-500">
           <X size={30} />
         </DialogClose>
         <DialogHeader className="text-center flex justify-center flex-col space-y-0">
@@ -129,155 +134,153 @@ export function Register() {
           <DialogTitle className="text-2xl font-bai-bold">Register</DialogTitle>
         </DialogHeader>
         <FormProvider {...form}>
-          <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(onSubmit)}
-              className="md:space-y-6 space-y-3 mt-4"
-            >
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-white">Name</FormLabel>
-                    <FormControl>
-                      <div className="relative">
-                        <User className="absolute left-3 top-2 h-5 w-5 text-gray-400" />
-                        <Input
-                          className="pl-10 bg-white/5 "
-                          placeholder="Your name"
-                          {...field}
-                        />
-                      </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-white">Email</FormLabel>
-                    <FormControl>
-                      <div className="relative">
-                        <Mail className="absolute left-3 top-2 h-5 w-5 text-gray-400" />
-                        <Input
-                          className="pl-10 bg-white/5 "
-                          type="email"
-                          placeholder="your@email.com"
-                          {...field}
-                        />
-                      </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="phone"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-white">Phone</FormLabel>
-                    <FormControl>
-                      <div className="relative">
-                        <Phone className="absolute left-3 top-2 h-5 w-5 text-gray-400" />
-                        <Input
-                          className="pl-10 bg-white/5 "
-                          type="tel"
-                          placeholder="+55 (99) 99999-9999"
-                          {...field}
-                        />
-                      </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-gray-300">Password</FormLabel>
-                    <FormControl>
-                      <div className="relative">
-                        <Lock className="absolute left-3 top-2 h-5 w-5 text-gray-400" />
-                        <Input
-                          type={showPassword ? 'text' : 'password'}
-                          className="bg-white/5   pl-10"
-                          {...field}
-                        />
-                        <button
-                          type="button"
-                          onClick={() => setShowPassword(!showPassword)}
-                          className="absolute right-3 top-2 text-gray-400 hover:text-gray-300"
-                        >
-                          {showPassword ? (
-                            <EyeOff className="h-5 w-5" />
-                          ) : (
-                            <Eye className="h-5 w-5" />
-                          )}
-                        </button>
-                      </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="confirmPassword"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-gray-300">
-                      {' '}
-                      Confirm Password
-                    </FormLabel>
-                    <FormControl>
-                      <div className="relative">
-                        <Lock className="absolute left-3 top-2 h-5 w-5 text-gray-400" />
-                        <Input
-                          type={showPassword ? 'text' : 'password'}
-                          className=" bg-white/5  pl-10"
-                          {...field}
-                        />
-                        <button
-                          type="button"
-                          onClick={() => setShowPassword(!showPassword)}
-                          className="absolute right-3 top-2 text-gray-400 hover:text-gray-300"
-                        >
-                          {showPassword ? (
-                            <EyeOff className="h-5 w-5" />
-                          ) : (
-                            <Eye className="h-5 w-5" />
-                          )}
-                        </button>
-                      </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              {isLoading ? (
-                <div className="w-ful flex justify-center group bg-default/90 hover:opacity-80 transition-opacity duration-200 hover:bg-emerald-500 text-black py-1.5 rounded-lg">
-                  <GiSoccerBall className="animate-spin text-black" size={25} />
-                </div>
-              ) : (
-                <Button
-                  type="submit"
-                  className="w-full relative group bg-default/90 hover:opacity-80 transition-opacity duration-200 hover:bg-emerald-500 text-black tracking-wide py-2.5"
-                >
-                  <span className="relative z-10">Register</span>
-                </Button>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="md:space-y-6 space-y-3 mt-1"
+          >
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-white">Name</FormLabel>
+                  <FormControl>
+                    <div className="relative">
+                      <User className="absolute left-3 top-2 h-5 w-5 text-gray-400" />
+                      <Input
+                        className="pl-10 bg-white/5 "
+                        placeholder="Your name"
+                        {...field}
+                      />
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
               )}
-            </form>
-          </Form>
+            />
+
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-white">Email</FormLabel>
+                  <FormControl>
+                    <div className="relative">
+                      <Mail className="absolute left-3 top-2 h-5 w-5 text-gray-400" />
+                      <Input
+                        className="pl-10 bg-white/5 "
+                        type="email"
+                        placeholder="your@email.com"
+                        {...field}
+                      />
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="phone"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-white">Phone</FormLabel>
+                  <FormControl>
+                    <div className="relative">
+                      <Phone className="absolute left-3 top-2 h-5 w-5 text-gray-400" />
+                      <Input
+                        className="pl-10 bg-white/5 "
+                        type="tel"
+                        placeholder="+55 (99) 99999-9999"
+                        {...field}
+                      />
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-gray-300">Password</FormLabel>
+                  <FormControl>
+                    <div className="relative">
+                      <Lock className="absolute left-3 top-2 h-5 w-5 text-gray-400" />
+                      <Input
+                        type={showPassword ? 'text' : 'password'}
+                        className="bg-white/5   pl-10"
+                        {...field}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute right-3 top-2 text-gray-400 hover:text-gray-300"
+                      >
+                        {showPassword ? (
+                          <EyeOff className="h-5 w-5" />
+                        ) : (
+                          <Eye className="h-5 w-5" />
+                        )}
+                      </button>
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="confirmPassword"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-gray-300">
+                    {' '}
+                    Confirm Password
+                  </FormLabel>
+                  <FormControl>
+                    <div className="relative">
+                      <Lock className="absolute left-3 top-2 h-5 w-5 text-gray-400" />
+                      <Input
+                        type={showPassword ? 'text' : 'password'}
+                        className=" bg-white/5  pl-10"
+                        {...field}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute right-3 top-2 text-gray-400 hover:text-gray-300"
+                      >
+                        {showPassword ? (
+                          <EyeOff className="h-5 w-5" />
+                        ) : (
+                          <Eye className="h-5 w-5" />
+                        )}
+                      </button>
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            {isLoading ? (
+              <div className="w-ful flex justify-center group bg-default/90 hover:opacity-80 transition-opacity duration-200 hover:bg-emerald-500 text-black py-1.5 rounded-lg">
+                <GiSoccerBall className="animate-spin text-black" size={25} />
+              </div>
+            ) : (
+              <Button
+                type="submit"
+                className="w-full relative group bg-default/90 hover:opacity-80 transition-opacity duration-200 hover:bg-emerald-500 text-black tracking-wide py-2.5"
+              >
+                <span className="relative z-10">Register</span>
+              </Button>
+            )}
+          </form>
         </FormProvider>
       </DialogContent>
     </Dialog>

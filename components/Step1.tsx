@@ -2,6 +2,7 @@ import { ArrowRight, X } from 'lucide-react'
 import { Input } from './ui/input'
 import { useState } from 'react'
 import { DialogClose } from './ui/dialog'
+import { NumericFormat } from 'react-number-format'
 
 interface Props {
   onStepChange: (step: 0 | 1 | 2 | 3) => void
@@ -35,12 +36,22 @@ export function Step1({ onStepChange, betAmount, setBetAmount }: Props) {
         </div>
         <div className="flex flex-col gap-2 md:gap-6 border border-t-4 border-x-zinc-700 rounded-lg border-t-emerald-500 border-b-zinc-700 p-6 ">
           <div>
-            <Input
+            <NumericFormat
+              customInput={Input}
               className="md:text-xl py-5"
               value={betAmount}
-              onChange={(e) => setBetAmount(e.target.value)}
-              type="number"
+              onValueChange={(values) => {
+                const { value } = values;
+                setBetAmount(value);
+              }}
+              thousandSeparator="."
+              decimalSeparator=","
+              decimalScale={2}
+              fixedDecimalScale
+              prefix=""
               placeholder="Enter bet amount"
+              allowNegative={false}
+              valueIsNumericString
             />
           </div>
           <div className="flex flex-col gap-2">
@@ -94,7 +105,7 @@ export function Step1({ onStepChange, betAmount, setBetAmount }: Props) {
           <div>
             <span className="text-[#727272]">04</span>
             <span className="text-[#BBB] ml-7">betAmount:</span>{' '}
-            {betAmount || 0},
+            {parseFloat(betAmount || '0').toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })},
           </div>
           <div>
             <span className="text-[#727272]">05</span>

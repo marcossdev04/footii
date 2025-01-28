@@ -55,7 +55,7 @@ export function SignIn() {
       <DialogTrigger className="bg-white/5 hover:bg-white/10 border border-white/10 px-4 py-1.5 rounded-full text-sm font-medium tracking-wide duration-300 transition-all hover:tracking-wider">
         Sign In
       </DialogTrigger>
-      <DialogContent className="max-w-[95vw] bg-[#1F211F]/50 backdrop-blur-sm border-y-2 border-x-[#1D1E1B] border-y-default">
+      <DialogContent className="max-w-[95vw] md:max-w-[450px] bg-[#1F211F]/50 backdrop-blur-sm border-y-2 border-x-[#1D1E1B] border-y-default">
         <DialogHeader className="text-center flex justify-center flex-col space-y-0">
           <div className="mx-auto pl-3 rounded-full">
             <Image alt="logo" src={logo} className="w-14" />
