@@ -4,8 +4,10 @@ import { useState } from 'react'
 import { Step1 } from './Step1'
 import { Step2 } from './Step2'
 import { Step3 } from './Step3'
+import { Step4 } from './Step4'
 
 export function UserStep() {
+  const [open, setOpen] = useState<boolean>(false)
   const [step, setStep] = useState<0 | 1 | 2 | 3>(0)
   const [hovered, setHovered] = useState<boolean>(false)
   const [betAmount, setBetAmount] = useState('')
@@ -15,8 +17,15 @@ export function UserStep() {
     setStep(newStep)
   }
 
+  const handleStepComplete = () => {
+    // Close current dialog and trigger Register
+    const registerButton = document.querySelector('[data-register-trigger]')
+    if (registerButton instanceof HTMLElement) {
+      registerButton.click()
+    }
+  }
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger
         className="group md:w-fit w-full justify-between relative bg-gradient-to-r from-emerald-500 to-teal-500 px-6 md:py-3 py-2 rounded-full font-medium tracking-wide transition-all duration-300 flex items-center gap-2 overflow-hidden hover:shadow-[0_0_20px_rgba(16,185,129,0.3)] hover:-translate-y-0.5"
         onMouseEnter={() => setHovered(true)}
@@ -30,7 +39,7 @@ export function UserStep() {
         />
         <div className="absolute inset-0 bg-gradient-to-r from-teal-500 to-emerald-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
       </DialogTrigger>
-      <DialogContent className="md:max-w-[700px] bg-[#1D211D]">
+      <DialogContent className="md:max-w-[800px] overflow-auto h-[90vh] bg-[#1D211D]">
         {step === 0 && (
           <Step1
             onStepChange={handleStepChange}
@@ -49,6 +58,13 @@ export function UserStep() {
         {step === 2 && (
           <Step3
             onStepChange={handleStepChange}
+            betAmount={betAmount}
+            selectedCountry={selectedCountry}
+          />
+        )}
+        {step === 3 && (
+          <Step4
+            onStepChange={handleStepComplete}
             betAmount={betAmount}
             selectedCountry={selectedCountry}
           />

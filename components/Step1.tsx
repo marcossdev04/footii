@@ -1,6 +1,7 @@
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, X } from 'lucide-react'
 import { Input } from './ui/input'
 import { useState } from 'react'
+import { DialogClose } from './ui/dialog'
 
 interface Props {
   onStepChange: (step: 0 | 1 | 2 | 3) => void
@@ -18,14 +19,21 @@ export function Step1({ onStepChange, betAmount, setBetAmount }: Props) {
   }
 
   return (
-    <div className="flex gap-2">
-      <div className="w-1/2 flex flex-col gap-6">
+    <div className="flex md:flex-row flex-col gap-2">
+      <DialogClose className="absolute top-8 right-5 font-bold text-red-500">
+        <X size={30} />
+      </DialogClose>
+      <div className="md:w-1/2 w-full flex flex-col gap-6">
         <div className="flex flex-col">
-          <div className="text-6xl font-bai-bold">Average</div>
-          <div className="text-6xl font-bai-bold text-[#35D49B]">Bet</div>
-          <div className="text-6xl font-bai-bold text-[#35D49B]">Amount</div>
+          <div className="md:text-6xl text-5xl font-bai-bold">Average</div>
+          <div className="md:text-6xl text-5xl font-bai-bold text-[#35D49B]">
+            Bet
+          </div>
+          <div className="md:text-6xl text-5xl font-bai-bold text-[#35D49B]">
+            Amount
+          </div>
         </div>
-        <div className="flex flex-col gap-6 border border-t-4 border-x-zinc-700 rounded-lg border-t-emerald-500 border-b-zinc-700 p-6 ">
+        <div className="flex flex-col gap-2 md:gap-6 border border-t-4 border-x-zinc-700 rounded-lg border-t-emerald-500 border-b-zinc-700 p-6 ">
           <div>
             <Input
               className="md:text-xl py-5"
@@ -38,7 +46,7 @@ export function Step1({ onStepChange, betAmount, setBetAmount }: Props) {
           <div className="flex flex-col gap-2">
             <button
               onClick={handleContinue}
-              className="w-full group relative px-8 py-4 rounded-full font-medium tracking-wide transition-all duration-300 flex items-center justify-center gap-2 overflow-hidden hover:-translate-y-0.5"
+              className="w-full group relative px-8 md:py-4 py-2 rounded-full font-medium tracking-wide transition-all duration-300 flex items-center justify-center gap-2 overflow-hidden hover:-translate-y-0.5"
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}
             >
@@ -64,60 +72,60 @@ export function Step1({ onStepChange, betAmount, setBetAmount }: Props) {
           </div>
         </div>
       </div>
-      <div className="flex font-mono flex-col gap-3 w-1/2 border border-t-4 text-base border-x-zinc-700 rounded-lg border-t-emerald-500 border-b-zinc-700 px-6 py-6 ">
+      <div className="flex font-mono flex-col gap-3 w-full md:w-1/2 border border-t-4 text-sm md:text-base border-x-zinc-700 rounded-lg border-t-emerald-500 border-b-zinc-700 px-6 py-6 ">
         <div className="">
           <span className="text-[#727272]">01</span>
           <span className="text-emerald-500 ml-2 opacity-50">
             {`//  Analyzing potential `}
           </span>
-          <div>
+          <div className="mt-2 -mb-1">
             <span className="text-[#727272]">02</span>
             <span className="text-emerald-500 ml-2 opacity-50">returns</span>
           </div>
         </div>
-        <div className="flex flex-col gap-3 text-base">
+        <div className="flex flex-col md:gap-3 gap-2 md:text-base text-sm">
           <div>
-            <span className="text-[#727272]">02</span>
+            <span className="text-[#727272]">03</span>
             <span className="text-[#F87583] ml-2">const</span>{' '}
             <span className="text-[#79B8FF]">data</span>{' '}
             <span className="text-[#F87583]">=</span>{' '}
             <span className="text-[#DA70D6]">{`{`}</span>
           </div>
           <div>
-            <span className="text-[#727272]">02</span>
+            <span className="text-[#727272]">04</span>
             <span className="text-[#BBB] ml-7">betAmount:</span>{' '}
             {betAmount || 0},
           </div>
           <div>
-            <span className="text-[#727272]">02</span>
+            <span className="text-[#727272]">05</span>
             <span className="text-[#BBB] ml-7">successRate:</span> 71.8,
           </div>
           <div>
-            <span className="text-[#727272]">02</span>
+            <span className="text-[#727272]">06</span>
             <span className="text-[#BBB] ml-7">monthlyGames:</span> 30
           </div>
           <div>
-            <span className="text-[#727272]">02</span>
+            <span className="text-[#727272]">07</span>
             <span className="text-[#DA70D6] ml-2">{`}`}</span>
           </div>
         </div>
-        <div className="">
-          <span className="text-[#727272]">02</span>
+        <div className="text-sm md:text-base">
+          <span className="text-[#727272]">08</span>
           <span className="text-emerald-500 opacity-50 ml-2">{`// Average monthly`}</span>
         </div>
         <div>
-          <span className="text-[#727272]">02</span>
+          <span className="text-[#727272]">09</span>
           <span className="text-emerald-500 opacity-50 ml-2">profit</span>
         </div>
-        <div>
-          <div>
-            <span className="text-[#727272]">02</span>
+        <div className="text-sm md:text-base">
+          <div className="mb-2">
+            <span className="text-[#727272]">10</span>
             <span className="text-[#F87583] ml-2">const</span>{' '}
             <span className="text-[#79B8FF]">profit </span>
             <span className="text-[#F87583]">=</span>
           </div>
           <div>
-            <span className="text-[#727272]">02</span>
+            <span className="text-[#727272]">11</span>
             <span className="text-[#B392F0] ml-2">calculate</span>
             <span className="text-[#DA70D6]">(</span>
             <span className="text-[#BBB]">data</span>

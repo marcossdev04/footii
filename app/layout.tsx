@@ -72,7 +72,7 @@ export default function RootLayout({
       <body className="bg-[#141414]">
         <div className="relative min-h-screen flex justify-center">
           <div
-            className={`${baiLight.className} ${baiBold.variable} ${
+            className={`${baiLight.className} ${baiBold.variable}  ${
               pathname === '/' ||
               pathname === '/login' ||
               pathname === '/register' ||

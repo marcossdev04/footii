@@ -1,7 +1,8 @@
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, X } from 'lucide-react'
 import { useState } from 'react'
 import { data } from '@/utils/LeaguesData'
 import Select from 'react-select'
+import { DialogClose } from './ui/dialog'
 
 interface Props {
   onStepChange: (step: 0 | 1 | 2 | 3) => void
@@ -24,14 +25,21 @@ export function Step2({
   }
 
   return (
-    <div className="flex gap-2">
-      <div className="w-1/2 flex flex-col gap-6">
+    <div className="flex md:flex-row flex-col gap-2">
+      <DialogClose className="absolute top-8 right-5 font-bold text-red-500">
+        <X size={30} />
+      </DialogClose>
+      <div className="md:w-1/2 w-full flex flex-col gap-6">
         <div className="flex flex-col">
-          <div className="text-6xl font-bai-bold">Select</div>
-          <div className="text-6xl font-bai-bold text-[#35D49B]">Your</div>
-          <div className="text-6xl font-bai-bold text-[#35D49B]">Country</div>
+          <div className="md:text-6xl text-5xl font-bai-bold">Select</div>
+          <div className="md:text-6xl text-5xl font-bai-bold text-[#35D49B]">
+            Your
+          </div>
+          <div className="md:text-6xl text-5xl font-bai-bold text-[#35D49B]">
+            Country
+          </div>
         </div>
-        <div className="flex flex-col gap-6 border border-t-4 border-x-zinc-700 rounded-lg border-t-emerald-500 border-b-zinc-700 p-6 ">
+        <div className="flex flex-col md:gap-6 gap-2 border border-t-4 border-x-zinc-700 rounded-lg border-t-emerald-500 border-b-zinc-700 p-6 ">
           <div>
             <Select
               className="z-50"
@@ -89,7 +97,7 @@ export function Step2({
           <div className="flex flex-col gap-2">
             <button
               onClick={handleContinue}
-              className="w-full group relative px-8 py-4 rounded-full font-medium tracking-wide transition-all duration-300 flex items-center justify-center gap-2 overflow-hidden hover:-translate-y-0.5"
+              className="w-full group relative px-8 md:py-4 py-2 rounded-full font-medium tracking-wide transition-all duration-300 flex items-center justify-center gap-2 overflow-hidden hover:-translate-y-0.5"
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}
             >
@@ -115,7 +123,7 @@ export function Step2({
           </div>
         </div>
       </div>
-      <div className="flex text-sm font-mono flex-col gap-4 w-1/2 border border-t-4  border-x-zinc-700 rounded-lg border-t-emerald-500 border-b-zinc-700 px-6 py-6 ">
+      <div className="flex text-sm font-mono flex-col gap-2 md:gap-4 w-full md:w-1/2 border border-t-4  border-x-zinc-700 rounded-lg border-t-emerald-500 border-b-zinc-700 px-6 py-6 ">
         <div className="">
           <span className="text-[#727272] text-sm">01</span>
           <span className="ml-1 text-emerald-500 opacity-50 text-sm">{`// Analyzing potential returns`}</span>

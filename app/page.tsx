@@ -5,6 +5,17 @@ import Link from 'next/link'
 import bg from '@/assets/footiBg.jpeg'
 import Image from 'next/image'
 import { UserStep } from '@/components/UserStep'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog'
+import { SignIn } from '@/components/SignIn'
 
 // Types
 interface CodeLine {
@@ -116,37 +127,34 @@ const FeatureCard: React.FC<FeatureCardProps> = React.memo(
 const AgeVerificationModal: React.FC<AgeVerificationModalProps> = React.memo(
   function AgeVerificationModal({ onVerified }) {
     return (
-      <div className="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center z-50">
-        <div className="relative">
-          <div className="absolute -inset-4 bg-gradient-to-r from-emerald-500/10 to-teal-500/10 blur-3xl rounded-3xl"></div>
-          <div className="relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-b-2xl p-8 md:max-w-md max-w-[95vw] w-full mx-0 md:mx-4">
-            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-emerald-500 to-teal-500"></div>
-            <h2 className="text-2xl font-light mb-6 text-center">
+      <AlertDialog defaultOpen>
+        <AlertDialogContent className="bg-white/5 backdrop-blur-sm border border-white/10">
+          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-emerald-500 to-teal-500" />
+          <AlertDialogHeader>
+            <AlertDialogTitle className="text-2xl font-light text-center">
               Age Verification Required
-            </h2>
-            <p className="text-gray-400 text-center mb-8 font-light">
+            </AlertDialogTitle>
+            <AlertDialogDescription className="text-gray-400 text-center font-light">
               You must be 18 or older to access this website.
-            </p>
-            <div className="flex gap-4 justify-center">
-              <button
-                onClick={() => onVerified(true)}
-                className="group relative bg-gradient-to-r from-emerald-500 to-teal-500 px-4 md:px-6 py-3 rounded-full font-medium tracking-wide transition-all duration-300 flex items-center gap-2 overflow-hidden hover:shadow-[0_0_20px_rgba(16,185,129,0.3)] hover:-translate-y-0.5"
-              >
-                <span className="relative md:text-base text-sm z-10">
-                  I am 18 or older
-                </span>
-                <div className="absolute inset-0 bg-gradient-to-r from-teal-500 to-emerald-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              </button>
-              <button
-                onClick={() => onVerified(false)}
-                className=" py-3 px-4 md:px-6 rounded-full md:text-base text-sm font-medium bg-white/5 hover:bg-white/10 border border-white/10 transition-all hover:shadow-lg"
-              >
-                I am under 18
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter className="flex gap-4 justify-center sm:justify-center">
+            <AlertDialogAction
+              onClick={() => onVerified(true)}
+              className="group relative bg-gradient-to-r from-emerald-500 to-teal-500 px-6 py-3 rounded-full font-medium tracking-wide transition-all duration-300 flex items-center gap-2 overflow-hidden hover:shadow-[0_0_20px_rgba(16,185,129,0.3)] hover:-translate-y-0.5"
+            >
+              <span className="relative text-base z-10">I am 18 or older</span>
+              <div className="absolute inset-0 bg-gradient-to-r from-teal-500 to-emerald-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            </AlertDialogAction>
+            <AlertDialogCancel
+              onClick={() => onVerified(false)}
+              className="py-3 px-6 rounded-full text-base font-medium bg-white/5 hover:bg-white/10 border border-white/10 transition-all hover:shadow-lg"
+            >
+              I am under 18
+            </AlertDialogCancel>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     )
   },
 )
@@ -223,112 +231,106 @@ const ModernLanding: React.FC = () => {
     return <RestrictedAccess />
   }
 
-  if (ageVerified === null) {
-    return <AgeVerificationModal onVerified={handleVerification} />
-  }
-
   return (
-    <div className="min-h-screen w-screen relative text-white overflow-x-hidden">
-      <Image
-        src={bg}
-        alt="Background"
-        fill
-        priority
-        quality={100}
-        className="object-cover -z-10"
-      />
-      <div className="fixed inset-0 bg-[#1F211F]/75 backdrop-blur-sm"></div>
+    <>
+      <AgeVerificationModal onVerified={handleVerification} />
+      <div className="min-h-screen w-screen relative text-white overflow-x-hidden">
+        <Image
+          src={bg}
+          alt="Background"
+          fill
+          priority
+          quality={100}
+          className="object-cover -z-10"
+        />
+        <div className="fixed inset-0 bg-[#1F211F]/75 backdrop-blur-sm"></div>
 
-      <nav className="fixed w-full z-50 bg-[#1F211F]/50 backdrop-blur-sm border-b border-white/5">
-        <div className="max-w-7xl mx-auto px-6 py-2 flex justify-between items-center">
-          <div className="text-xl font-light tracking-wider text-[#FF6B00]">
-            footi<span className="text-white/80">AI</span>
+        <nav className="fixed w-full z-50 bg-[#1F211F]/50 backdrop-blur-sm border-b border-white/5">
+          <div className="max-w-7xl mx-auto px-6 py-2 flex justify-between items-center">
+            <div className="text-xl font-light tracking-wider text-[#FF6B00]">
+              footi<span className="text-white/80">AI</span>
+            </div>
+            <div className="flex gap-4 md:gap-8 items-center">
+              <Link
+                href={'/pricing'}
+                className="text-sm text-gray-400 hover:text-white transition-all duration-300"
+              >
+                Pricing
+              </Link>
+              <Link
+                href={'/about'}
+                className="text-sm text-gray-400 hover:text-white duration-300 transition-all"
+              >
+                About
+              </Link>
+              <SignIn />
+            </div>
           </div>
-          <div className="flex gap-4 md:gap-8 items-center">
-            <Link
-              href={'/pricing'}
-              className="text-sm text-gray-400 hover:text-white transition-all duration-300"
-            >
-              Pricing
-            </Link>
-            <Link
-              href={'/about'}
-              className="text-sm text-gray-400 hover:text-white duration-300 transition-all"
-            >
-              About
-            </Link>
-            <Link
-              href={'/login'}
-              className="bg-white/5 hover:bg-white/10 border border-white/10 px-4 py-1.5 rounded-full text-sm font-medium tracking-wide duration-300 transition-all hover:tracking-wider"
-            >
-              Sign In
-            </Link>
-          </div>
-        </div>
-      </nav>
+        </nav>
 
-      <main className="relative min-h-screen">
-        <div className="relative md:pt-24 md:pb-24 pt-14">
-          <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 md:gap-12 gap-3 ">
-            <div className="space-y-4 md:space-y-10 ">
-              <h1 className="space-y-1">
-                <div className="md:text-7xl text-5xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-300">
-                  Precision
-                </div>
-                <div className="md:text-7xl text-5xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-400">
-                  Football
-                </div>
-                <div className="md:text-7xl text-5xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-300">
-                  Analytics
-                </div>
-              </h1>
+        <main className="relative min-h-screen">
+          <div className="relative md:pt-24 md:pb-24 pt-14">
+            <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 md:gap-12 gap-3 ">
+              <div className="space-y-4 md:space-y-10 ">
+                <h1 className="space-y-1">
+                  <div className="md:text-7xl text-5xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-300">
+                    Precision
+                  </div>
+                  <div className="md:text-7xl text-5xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-400">
+                    Football
+                  </div>
+                  <div className="md:text-7xl text-5xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-300">
+                    Analytics
+                  </div>
+                </h1>
 
-              <p className="text-sm md:text-xl text-gray-200 font-light leading-relaxed">
-                <span className="font-medium">
-                  3+ years of consistent profits
-                </span>{' '}
-                through AI-powered predictions.
-                <span className="block md:mt-4 mt-1 text-gray-300">
-                  Global market analysis • All leagues covered • 48-hour edge
-                </span>
-              </p>
-
-              <div className="md:space-y-4 space-y-2">
-                <UserStep />
-                <div className="flex md:justify-start justify-center items-center gap-2">
-                  <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
-                  <span className="text-base font-medium text-white">
-                    3 days free • No credit card required
+                <p className="text-sm md:text-xl text-gray-200 font-light leading-relaxed">
+                  <span className="font-medium">
+                    3+ years of consistent profits
+                  </span>{' '}
+                  through AI-powered predictions.
+                  <span className="block md:mt-4 mt-1 text-gray-300">
+                    Global market analysis • All leagues covered • 48-hour edge
                   </span>
+                </p>
+
+                <div className="md:space-y-4 space-y-2">
+                  <UserStep />
+                  <div className="flex md:justify-start justify-center items-center gap-2">
+                    <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
+                    <span className="text-base font-medium text-white">
+                      3 days free • No credit card required
+                    </span>
+                  </div>
                 </div>
               </div>
+
+              <CodeDisplay />
             </div>
 
-            <CodeDisplay />
-          </div>
-
-          <div className="max-w-7xl mx-auto px-6 mt-4 md:mt-24">
-            <div className="grid md:grid-cols-3 gap-6">
-              <FeatureCard
-                icon={<Brain className="w-6 h-6" />}
-                title="Deep Learning Core"
-                description="Neural networks processing millions of data points for accurate predictions"
-              />
-              <FeatureCard
-                icon={<TrendingUp className="w-6 h-6" />}
-                title="Market Analysis"
-                description="Real-time odds monitoring across all major global bookmakers"
-              />
-              <FeatureCard
-                icon={<Clock className="w-6 h-6" />}
-                title="Early Predictions"
-                description="Get insights up to 48 hours before matches begin"
-              />
+            <div className="max-w-7xl mx-auto px-6 mt-4 md:mt-24">
+              <div className="grid md:grid-cols-3 gap-6">
+                <FeatureCard
+                  icon={<Brain className="w-6 h-6" />}
+                  title="Deep Learning Core"
+                  description="Neural networks processing millions of data points for accurate predictions"
+                />
+                <FeatureCard
+                  icon={<TrendingUp className="w-6 h-6" />}
+                  title="Market Analysis"
+                  description="Real-time odds monitoring across all major global bookmakers"
+                />
+                <FeatureCard
+                  icon={<Clock className="w-6 h-6" />}
+                  title="Early Predictions"
+                  description="Get insights up to 48 hours before matches begin"
+                />
+              </div>
             </div>
           </div>
-        </div>
-      </main>
-    </div>
+        </main>
+      </div>
+    </>
   )
 }
 
