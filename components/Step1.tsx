@@ -41,8 +41,8 @@ export function Step1({ onStepChange, betAmount, setBetAmount }: Props) {
               className="md:text-xl py-5"
               value={betAmount}
               onValueChange={(values) => {
-                const { value } = values;
-                setBetAmount(value);
+                const { value } = values
+                setBetAmount(value)
               }}
               thousandSeparator="."
               decimalSeparator=","
@@ -105,7 +105,11 @@ export function Step1({ onStepChange, betAmount, setBetAmount }: Props) {
           <div>
             <span className="text-[#727272]">04</span>
             <span className="text-[#BBB] ml-7">betAmount:</span>{' '}
-            {parseFloat(betAmount || '0').toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })},
+            {parseFloat(betAmount || '0').toLocaleString('pt-BR', {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })}
+            ,
           </div>
           <div>
             <span className="text-[#727272]">05</span>
