@@ -10,6 +10,7 @@ import { LoaderCircle } from 'lucide-react'
 import { formatDateToYYYYMMDD } from '@/utils/formatDate'
 import { Carrousel } from '@/components/Carrousel'
 import { H2h } from '@/components/H2h'
+import { FeatureAnnouncementDialog } from '@/components/FeatureAnnoucement'
 
 export default function Home() {
   const observerTarget = useRef<HTMLDivElement>(null)
@@ -69,6 +70,7 @@ export default function Home() {
 
   return (
     <div className="w-full pb-[70px] relative">
+      <FeatureAnnouncementDialog />
       <div className="fixed max-w-[450px] mx-auto top-10 left-0 right-0 rounded-b-lg z-50 bg-[#141414]">
         <Carrousel />
         <Stats />
