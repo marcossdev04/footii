@@ -9,6 +9,15 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      screens: {
+        '2xsm': '375px',
+        xsm: '425px',
+        '3xl': '2000px',
+        mobile: { max: '767px' },
+        tablet: { min: '768px', max: '1023px' },
+        laptop: { min: '1024px', max: '1439px' },
+        desktop: { min: '1440px' },
+      },
       colors: {
         default: '#3FF0AA',
         background: 'hsl(var(--background))',
@@ -59,14 +68,26 @@ const config: Config = {
       },
       keyframes: {
         slideText: {
-          '0%, 45%': { transform: 'translateX(0)' },
-          '50%': { transform: 'translateX(-100%)' },
-          '55%': { transform: 'translateX(100%)' },
-          '60%, 100%': { transform: 'translateX(0)' },
+          '0%, 45%': {
+            transform: 'translateX(0)',
+          },
+          '50%': {
+            transform: 'translateX(-100%)',
+          },
+          '55%': {
+            transform: 'translateX(100%)',
+          },
+          '60%, 100%': {
+            transform: 'translateX(0)',
+          },
         },
         wave: {
-          '0%, 100%': { fill: '#191919' },
-          '50%': { fill: '#E0E0E0' },
+          '0%, 100%': {
+            fill: '#191919',
+          },
+          '50%': {
+            fill: '#E0E0E0',
+          },
         },
         ellipse: {
           '0%, 100%': {
@@ -78,6 +99,22 @@ const config: Config = {
             opacity: '0.5',
           },
         },
+        'accordion-down': {
+          from: {
+            height: '0',
+          },
+          to: {
+            height: 'var(--radix-accordion-content-height)',
+          },
+        },
+        'accordion-up': {
+          from: {
+            height: 'var(--radix-accordion-content-height)',
+          },
+          to: {
+            height: '0',
+          },
+        },
       },
       animation: {
         ellipse: 'ellipse 5s ease-in-out infinite',
@@ -85,6 +122,8 @@ const config: Config = {
         'slide-text': 'slideText 4s infinite',
         wave: 'wave 1.5s ease-in-out infinite',
         'wave-delayed': 'wave 1.5s ease-in-out infinite 0.2s',
+        'accordion-down': 'accordion-down 0.2s ease-out',
+        'accordion-up': 'accordion-up 0.2s ease-out',
       },
     },
   },

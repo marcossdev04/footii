@@ -38,10 +38,10 @@ export function Step4({ betAmount, selectedCountry }: Props) {
   }, [betAmount, selectedCountry])
   return (
     <div className="md:px-5 py-2 flex flex-col gap-5">
-      <DialogClose className="absolute top-5 right-2 text-red-500">
+      <DialogClose className="absolute top-5 right-5 ">
         <X size={30} />
       </DialogClose>
-      <div className="flex flex-col gap-3 items-center px-2">
+      <div className="flex flex-col gap-3 items-center mt-5 px-2">
         <div className="md:text-5xl text-2xl text-center font-bai-bold">
           They say past performance{' '}
           <span className="text-emerald-500">
@@ -162,7 +162,7 @@ export function Step4({ betAmount, selectedCountry }: Props) {
         </div>
         <div className="flex flex-col gap-2">
           <div>
-            <Register />
+            <Register text={'Start Winning Now'} />
           </div>
           <div className="flex items-center justify-center gap-2 pt-2">
             <div className="text-xs font-medium text-gray-400 flex items-center gap-1">

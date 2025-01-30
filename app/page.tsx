@@ -16,11 +16,19 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
 import { SignIn } from '@/components/SignIn'
+import { Faq } from '@/components/Faq'
 
 // Types
 interface CodeLine {
   type: 'comment' | 'import' | 'code' | 'indent'
   content: string
+}
+
+interface CodeLineProps {
+  line: CodeLine
+  index: number
+  isActive: boolean
+  currentLine: number
 }
 
 interface FeatureCardProps {
@@ -60,11 +68,52 @@ const codeLines: CodeLine[] = [
   { type: 'comment', content: '# Under 3.0 @ 1.80 ✓' },
 ]
 
-// Componente para cada linha individual
 const CodeLineComponent: React.FC<CodeLineProps> = React.memo(
-  function CodeLineComponent({ line, index, isActive }) {
+  function CodeLineComponent({ line, index, isActive, currentLine }) {
+    const [displayText, setDisplayText] = useState('')
+    const [isVisible, setIsVisible] = useState(false)
+    const [isTyping, setIsTyping] = useState(false)
+
+    useEffect(() => {
+      // Se a linha atual é menor ou igual ao índice atual, ela deve estar visível
+      if (currentLine >= index) {
+        setIsVisible(true)
+
+        // Se for a linha atual, inicia a animação de digitação
+        if (currentLine === index) {
+          setIsTyping(true)
+          setDisplayText('')
+          let currentIndex = 0
+          const content = line.content
+
+          const typingInterval = setInterval(() => {
+            if (currentIndex <= content.length) {
+              setDisplayText(content.slice(0, currentIndex))
+              currentIndex++
+            } else {
+              clearInterval(typingInterval)
+              setIsTyping(false)
+            }
+          }, 50)
+
+          return () => clearInterval(typingInterval)
+        } else {
+          // Se for uma linha anterior, mostra o texto completo
+          setDisplayText(line.content)
+          setIsTyping(false)
+        }
+      } else {
+        // Se for uma linha futura, mantém oculta
+        setIsVisible(false)
+        setDisplayText('')
+        setIsTyping(false)
+      }
+    }, [currentLine, index, line.content])
+
     const getLineStyle = () => {
-      const baseStyle = 'transition-all duration-300 md:text-base text-xs'
+      const baseStyle =
+        'transition-all duration-300 md:text-base text-xs opacity-0'
+      const visibilityStyle = isVisible ? 'opacity-100' : 'opacity-0'
       const activeStyle = isActive
         ? 'text-[#FF6B00] md:text-base text-xs'
         : 'text-gray-400'
@@ -75,15 +124,20 @@ const CodeLineComponent: React.FC<CodeLineProps> = React.memo(
             ? 'text-purple-400 md:text-base text-xs'
             : ''
 
-      return `${baseStyle} ${activeStyle} ${typeStyle}`.trim()
+      return `${baseStyle} ${visibilityStyle} ${activeStyle} ${typeStyle}`.trim()
     }
+
+    if (!isVisible) return null
 
     return (
       <div className={getLineStyle()}>
         <span className="mr-4 text-gray-600">
           {String(index + 1).padStart(2, '0')}
         </span>
-        {line.content}
+        {displayText}
+        {isTyping && (
+          <span className="inline-block w-2 h-4 ml-1 bg-[#FF6B00] animate-pulse" />
+        )}
       </div>
     )
   },
@@ -101,6 +155,7 @@ const CodeLinesContainer: React.FC<{
           line={line}
           index={index}
           isActive={index === currentLine}
+          currentLine={currentLine}
         />
       ))}
     </>
@@ -183,11 +238,19 @@ const RestrictedAccess: React.FC = React.memo(function RestrictedAccess() {
 })
 
 const CodeDisplay: React.FC = React.memo(function CodeDisplay() {
-  const [currentLine, setCurrentLine] = React.useState(0)
+  const [currentLine, setCurrentLine] = useState(0)
+  const [isComplete, setIsComplete] = useState(false)
   const timerRef = useRef<NodeJS.Timeout | null>(null)
 
   const updateLine = useCallback(() => {
-    setCurrentLine((prev) => (prev + 1) % codeLines.length)
+    setCurrentLine((prev) => {
+      // Se a próxima linha seria o fim do array
+      if (prev + 1 >= codeLines.length) {
+        setIsComplete(true)
+        return prev // Mantém na última linha
+      }
+      return prev + 1
+    })
   }, [])
 
   useEffect(() => {
@@ -195,25 +258,30 @@ const CodeDisplay: React.FC = React.memo(function CodeDisplay() {
       clearInterval(timerRef.current)
     }
 
-    timerRef.current = setInterval(updateLine, 1000)
+    // Só configura o timer se ainda não completou a animação
+    if (!isComplete) {
+      timerRef.current = setInterval(updateLine, 1000)
+    }
 
     return () => {
       if (timerRef.current) {
         clearInterval(timerRef.current)
       }
     }
-  }, [updateLine])
+  }, [updateLine, isComplete])
 
   return (
     <div className="relative">
       <div className="absolute -inset-4 bg-gradient-to-r from-[#FF6B00]/10 to-[#1A1F35]/30 blur-3xl rounded-3xl" />
 
-      <div className="relative bg-[#1F211F]/90 rounded-3xl overflow-hidden border border-emerald-500/20 backdrop-blur-sm p-3 md:p-8 font-mono">
+      <div className="relative h-[300px] md:h-[480px] bg-[#1F211F]/90 rounded-3xl overflow-hidden border border-emerald-500/20 backdrop-blur-sm p-3 md:p-8 font-mono">
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#FF6B00] to-[#FF8534]" />
 
         <CodeLinesContainer codeLines={codeLines} currentLine={currentLine} />
 
-        <div className="absolute bottom-4 right-4 w-3 h-6 bg-[#FF6B00]/50 animate-pulse" />
+        {!isComplete && (
+          <div className="absolute bottom-4 right-4 w-3 h-6 bg-[#FF6B00]/50 animate-pulse" />
+        )}
       </div>
     </div>
   )
@@ -234,7 +302,7 @@ const ModernLanding: React.FC = () => {
   return (
     <>
       <AgeVerificationModal onVerified={handleVerification} />
-      <div className="min-h-screen w-screen relative text-white overflow-x-hidden">
+      <div className="min-h-screen w-full relative text-white overflow-x-hidden">
         <Image
           src={bg}
           alt="Background"
@@ -269,8 +337,8 @@ const ModernLanding: React.FC = () => {
         </nav>
 
         <main className="relative min-h-screen">
-          <div className="relative md:pt-24 md:pb-24 pt-14">
-            <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 md:gap-12 gap-3 ">
+          <div className="relative desktop:pt-32 md:pt-16 pt-14">
+            <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 md:gap-12 gap-3">
               <div className="space-y-4 md:space-y-10 ">
                 <h1 className="space-y-1">
                   <div className="md:text-7xl text-5xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-300">
@@ -279,7 +347,7 @@ const ModernLanding: React.FC = () => {
                   <div className="md:text-7xl text-5xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-400">
                     Football
                   </div>
-                  <div className="md:text-7xl text-5xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-300">
+                  <div className="md:text-7xl pb-1 md:pb-2 text-5xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-300">
                     Analytics
                   </div>
                 </h1>
@@ -308,7 +376,7 @@ const ModernLanding: React.FC = () => {
               <CodeDisplay />
             </div>
 
-            <div className="max-w-7xl mx-auto px-6 mt-4 md:mt-24">
+            <div className="max-w-7xl mx-auto px-6 mt-4 md:mt-6 desktop:mt-40">
               <div className="grid md:grid-cols-3 gap-6">
                 <FeatureCard
                   icon={<Brain className="w-6 h-6" />}
@@ -327,6 +395,7 @@ const ModernLanding: React.FC = () => {
                 />
               </div>
             </div>
+            <Faq />
           </div>
         </main>
       </div>

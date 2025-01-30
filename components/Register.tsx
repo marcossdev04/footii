@@ -37,6 +37,10 @@ import { useEffect, useState } from 'react'
 import { Button } from './ui/button'
 import LoadingOverlay from './RegisterLoading'
 
+interface Props {
+  text: string
+}
+
 const registerSchema = z
   .object({
     name: z
@@ -61,7 +65,7 @@ const registerSchema = z
 
 type RegisterFormValues = z.infer<typeof registerSchema>
 
-export function Register() {
+export function Register({ text }: Props) {
   const [isHovered, setIsHovered] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
   const { handleRegister, isLoading } = useAuth()
@@ -113,7 +117,7 @@ export function Register() {
         <div className="absolute inset-0 transition-opacity duration-300 opacity-0 group-hover:opacity-100">
           <div className="absolute inset-[-2px] bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full blur-lg"></div>
         </div>
-        <span className="relative z-10">Start Winning Now</span>
+        <span className="relative z-10">{text}</span>
         <ArrowRight
           className={`w-5 h-5 relative z-10 transition-all duration-300 ${isHovered ? 'translate-x-1 scale-110' : ''}`}
         />

@@ -55,7 +55,7 @@ export default function RootLayout({
   }, [])
   const pathname = usePathname()
   return (
-    <html lang="en">
+    <html lang="en" className="overflow-x-hidden">
       {pathname === '/user' ||
       pathname === '/' ||
       pathname === '/login' ||
@@ -69,8 +69,8 @@ export default function RootLayout({
         </head>
       )}
 
-      <body className="bg-[#141414]">
-        <div className="relative min-h-screen flex justify-center">
+      <body className="bg-[#141414] overflow-x-hidden">
+        <div className="relative min-h-screen flex justify-center overflow-x-hidden">
           <div
             className={`${baiLight.className} ${baiBold.variable}  ${
               pathname === '/' ||

@@ -21,10 +21,10 @@ export function Step1({ onStepChange, betAmount, setBetAmount }: Props) {
 
   return (
     <div className="flex md:flex-row flex-col gap-2">
-      <DialogClose className="absolute top-8 right-5 font-bold text-red-500">
+      <DialogClose className="absolute top-4 right-5 font-bold">
         <X size={30} />
       </DialogClose>
-      <div className="md:w-1/2 w-full flex flex-col gap-6">
+      <div className="md:w-1/2 w-full flex flex-col gap-6 mt-8">
         <div className="flex flex-col">
           <div className="md:text-6xl text-5xl font-bai-bold">Average</div>
           <div className="md:text-6xl text-5xl font-bai-bold text-[#35D49B]">
@@ -83,7 +83,7 @@ export function Step1({ onStepChange, betAmount, setBetAmount }: Props) {
           </div>
         </div>
       </div>
-      <div className="flex font-mono flex-col gap-3 w-full md:w-1/2 border border-t-4 text-sm md:text-base border-x-zinc-700 rounded-lg border-t-emerald-500 border-b-zinc-700 px-6 py-6 ">
+      <div className="flex mt-8 font-mono flex-col gap-3 w-full md:w-1/2 border border-t-4 text-sm md:text-base border-x-zinc-700 rounded-lg border-t-emerald-500 border-b-zinc-700 px-6 py-6 ">
         <div className="">
           <span className="text-[#727272]">01</span>
           <span className="text-emerald-500 ml-2 opacity-50">
