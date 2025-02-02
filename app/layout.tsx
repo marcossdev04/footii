@@ -74,12 +74,12 @@ export default function RootLayout({
           <div
             className={`${baiLight.className} ${baiBold.variable}  ${
               pathname === '/' ||
-              pathname === '/login' ||
-              pathname === '/register' ||
+              pathname === '/faq' ||
+              pathname === '/prices' ||
               pathname === '/user'
                 ? ''
                 : 'mt-12'
-            } antialiased w-full ${pathname === '/' ? 'max-w-[1920px]' : 'max-w-[450px]'} `}
+            } antialiased w-full ${pathname === '/' || pathname === '/faq' || pathname === '/prices' ? 'max-w-[1920px]' : 'max-w-[450px]'} `}
           >
             <QueryClientProvider client={queryClient}>
               <AuthContextProvider>
@@ -91,8 +91,8 @@ export default function RootLayout({
                     disableTransitionOnChange
                   >
                     {pathname === '/' ||
-                    pathname === '/login' ||
-                    pathname === '/register' ||
+                    pathname === '/prices' ||
+                    pathname === '/faq' ||
                     pathname === '/user' ||
                     pathname === '/news' ? null : (
                       <HeaderTop />
@@ -100,8 +100,8 @@ export default function RootLayout({
                     {pathname === '/news' ? <FootiNewsTop /> : null}
                     {children}
                     {pathname === '/' ||
-                    pathname === '/register' ||
-                    pathname === '/login' ? null : (
+                    pathname === '/faq' ||
+                    pathname === '/prices' ? null : (
                       <Header padding={shouldAddPadding} />
                     )}
                   </ThemeProvider>

@@ -3,6 +3,13 @@ import { useEffect, useState } from 'react'
 import { data } from '@/utils/LeaguesData'
 import { DialogClose } from './ui/dialog'
 
+const formatCurrency = (value: number): string => {
+  return value.toLocaleString('pt-BR', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })
+}
+
 interface Props {
   onStepChange: (step: 0 | 1 | 2 | 3) => void
   betAmount: string
@@ -12,6 +19,7 @@ interface Props {
 export function Step3({ onStepChange, betAmount, selectedCountry }: Props) {
   const [isHovered, setIsHovered] = useState(false)
   const [profit, setProfit] = useState(0)
+  const [totalProfit, setTotalProfit] = useState(0)
 
   const handleContinue = () => {
     onStepChange(3)
@@ -29,6 +37,12 @@ export function Step3({ onStepChange, betAmount, selectedCountry }: Props) {
       setProfit(calculatedProfit)
     }
   }, [betAmount, selectedCountry])
+
+  useEffect(() => {
+    const calculatedProfit = data.result.total_profit * parseFloat(betAmount)
+    setTotalProfit(calculatedProfit)
+  }, [betAmount])
+  console.log(profit / parseFloat(betAmount))
   return (
     <div className="flex md:flex-row flex-col gap-2">
       <button
@@ -40,28 +54,39 @@ export function Step3({ onStepChange, betAmount, selectedCountry }: Props) {
       <DialogClose className="absolute top-4 right-5 font-bold">
         <X size={30} />
       </DialogClose>
-      <div className="md:w-1/2 w-full flex flex-col gap-6 mt-8">
-        <div className="flex flex-col">
+      <div className="md:w-1/2 w-full flex flex-col justify-between gap-6 mt-8">
+        <div className="flex flex-col h-full justify-center">
           <div className="md:text-6xl text-5xl font-bai-bold">Your</div>
           <div className="md:text-6xl text-5xl font-bai-bold text-[#35D49B]">
             Results
           </div>
         </div>
         <div className="flex flex-col gap-2 md:gap-5 border border-t-4 border-x-zinc-700 rounded-lg border-t-emerald-500 border-b-zinc-700 p-6 ">
-          <div className="flex flex-col gap-1.5 md:gap-3">
-            <div className="flex flex-col md:text-base text-sm bg-[#253831] rounded-lg p-1 items-center">
-              <div className="text-[#e3e3e3]">Monthly Profit</div>
-              <div className="text-emerald-500 text-xl md:text-2xl font-bai-bold">
-                ${profit.toFixed(2)}
+          {profit / parseFloat(betAmount) < 1 ? (
+            <div className="flex flex-col gap-1.5 md:gap-3">
+              <div className="flex flex-col md:text-base text-sm bg-[#253831] rounded-lg p-1 items-center">
+                <div className="text-[#e3e3e3]">Total Profit</div>
+                <div className="text-emerald-500 text-xl md:text-2xl font-bai-bold">
+                  ${formatCurrency(totalProfit)}
+                </div>
               </div>
             </div>
-            <div className="flex flex-col text-sm md:text-base bg-[#253831] rounded-lg p-1 items-center">
-              <div className="text-[#e3e3e3]">Succes Rate</div>
-              <div className="text-emerald-500 text-xl md:text-2xl font-bai-bold">
-                +60.0%
+          ) : (
+            <div className="flex flex-col gap-1.5 md:gap-3">
+              <div className="flex flex-col md:text-base text-sm bg-[#253831] rounded-lg p-1 items-center">
+                <div className="text-[#e3e3e3]">Total Profit</div>
+                <div className="text-emerald-500 text-xl md:text-2xl font-bai-bold">
+                  ${formatCurrency(totalProfit)}
+                </div>
+              </div>
+              <div className="flex flex-col text-sm md:text-base bg-[#253831] rounded-lg p-1 items-center">
+                <div className="text-[#e3e3e3]">Country Total Profit</div>
+                <div className="text-emerald-500 text-xl md:text-2xl font-bai-bold">
+                  ${formatCurrency(profit)}
+                </div>
               </div>
             </div>
-          </div>
+          )}
           <div className="flex flex-col gap-2">
             <button
               onClick={handleContinue}
@@ -136,7 +161,7 @@ export function Step3({ onStepChange, betAmount, selectedCountry }: Props) {
             <span className="text-[#BBB] text-sm md:text-base ml-7">
               profit:
             </span>
-            <span className=" ml-1">{profit.toFixed(2)}</span>
+            <span className=" ml-1">{formatCurrency(profit)}</span>
           </div>
           <div className="flex items-center text-sm md:text-base">
             <span className="text-sm md:text-base text-[#727272]">07</span>

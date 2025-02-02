@@ -9,10 +9,10 @@ import {
 
 export function Faq() {
   return (
-    <section className="max-w-7xl mx-auto px-6 py-6 md:py-20 ">
+    <section className="max-w-7xl mx-auto px-6 py-6 md:py-20 mobile:pt-20 ">
       <div className="flex flex-col  space-y-4 ">
         <h2 className="text-3xl font-bold tracking-tighter text-white sm:text-4xl md:text-5xl">
-          <span className="text-[#F45501]">Common</span> Questions
+          Common <span className="text-[#F45501]">Questions</span>
           <div className="h-1 w-[200px] bg-gradient-to-r from-[#F45501] to-transparent"></div>
         </h2>
       </div>

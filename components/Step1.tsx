@@ -24,8 +24,8 @@ export function Step1({ onStepChange, betAmount, setBetAmount }: Props) {
       <DialogClose className="absolute top-4 right-5 font-bold">
         <X size={30} />
       </DialogClose>
-      <div className="md:w-1/2 w-full flex flex-col gap-6 mt-8">
-        <div className="flex flex-col">
+      <div className="md:w-1/2 w-full flex flex-col justify-between gap-6 mt-8">
+        <div className="flex flex-col h-full justify-center">
           <div className="md:text-6xl text-5xl font-bai-bold">Average</div>
           <div className="md:text-6xl text-5xl font-bai-bold text-[#35D49B]">
             Bet
@@ -77,7 +77,7 @@ export function Step1({ onStepChange, betAmount, setBetAmount }: Props) {
                 <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
                 <div>Encrypted</div>
                 <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
-                <div>No credit card required</div>
+                <div>No payment required</div>
               </div>
             </div>
           </div>

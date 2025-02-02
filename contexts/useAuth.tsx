@@ -81,7 +81,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     }
 
     const handleCookieChange = async () => {
-      const isPublicRoute = pathname === '/'
+      const isPublicRoute = pathname === '/' || '/faq' || '/prices'
 
       if (!cookies.token_footiapp) {
         // Tenta refresh antes de deslogar

@@ -58,7 +58,7 @@ export function SignIn() {
       <DialogContent className="max-w-[95vw] md:max-w-[450px] bg-[#1F211F]/50 backdrop-blur-sm border-y-2 border-x-[#1D1E1B] border-y-default">
         <DialogHeader className="text-center flex justify-center flex-col space-y-0">
           <div className="mx-auto pl-3 rounded-full">
-            <Image alt="logo" src={logo} className="w-14" />
+            <Image alt="logo" src={logo} className="w-10" />
           </div>
           <DialogTitle className="text-2xl font-bai-bold">Login</DialogTitle>
         </DialogHeader>

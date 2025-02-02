@@ -1,7 +1,6 @@
 'use client'
 import React, { useState, useCallback, useRef, useEffect } from 'react'
 import { Brain, TrendingUp, Clock } from 'lucide-react'
-import Link from 'next/link'
 import bg from '@/assets/footiBg.jpeg'
 import Image from 'next/image'
 import { UserStep } from '@/components/UserStep'
@@ -15,8 +14,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
-import { SignIn } from '@/components/SignIn'
-import { Faq } from '@/components/Faq'
+import { HeaderLanding } from '@/components/HeaderLanding'
 
 // Types
 interface CodeLine {
@@ -290,9 +288,21 @@ const CodeDisplay: React.FC = React.memo(function CodeDisplay() {
 // Main Component
 const ModernLanding: React.FC = () => {
   const [ageVerified, setAgeVerified] = useState<boolean | null>(null)
+  const [isShowed, setIsShowed] = useState(false)
+
+  useEffect(() => {
+    const hasShown = localStorage.getItem('hasShownAgeVerification')
+    if (hasShown === 'true') {
+      setIsShowed(true)
+    }
+  }, [])
 
   const handleVerification = (isVerified: boolean): void => {
     setAgeVerified(isVerified)
+    if (isVerified) {
+      localStorage.setItem('hasShownAgeVerification', 'true')
+      setIsShowed(true)
+    }
   }
 
   if (ageVerified === false) {
@@ -301,7 +311,7 @@ const ModernLanding: React.FC = () => {
 
   return (
     <>
-      <AgeVerificationModal onVerified={handleVerification} />
+      {!isShowed && <AgeVerificationModal onVerified={handleVerification} />}
       <div className="min-h-screen w-full relative text-white overflow-x-hidden">
         <Image
           src={bg}
@@ -313,28 +323,7 @@ const ModernLanding: React.FC = () => {
         />
         <div className="fixed inset-0 bg-[#1F211F]/75 backdrop-blur-sm"></div>
 
-        <nav className="fixed w-full z-50 bg-[#1F211F]/50 backdrop-blur-sm border-b border-white/5">
-          <div className="max-w-7xl mx-auto px-6 py-2 flex justify-between items-center">
-            <div className="text-xl font-light tracking-wider text-[#FF6B00]">
-              footi<span className="text-white/80">AI</span>
-            </div>
-            <div className="flex gap-4 md:gap-8 items-center">
-              <Link
-                href={'/pricing'}
-                className="text-sm text-gray-400 hover:text-white transition-all duration-300"
-              >
-                Pricing
-              </Link>
-              <Link
-                href={'/about'}
-                className="text-sm text-gray-400 hover:text-white duration-300 transition-all"
-              >
-                About
-              </Link>
-              <SignIn />
-            </div>
-          </div>
-        </nav>
+        <HeaderLanding />
 
         <main className="relative min-h-screen">
           <div className="relative desktop:pt-32 md:pt-16 pt-14">
@@ -367,7 +356,7 @@ const ModernLanding: React.FC = () => {
                   <div className="flex md:justify-start justify-center items-center gap-2">
                     <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
                     <span className="text-base font-medium text-white">
-                      3 days free • No credit card required
+                      3 days free • No payment required
                     </span>
                   </div>
                 </div>
@@ -395,7 +384,6 @@ const ModernLanding: React.FC = () => {
                 />
               </div>
             </div>
-            <Faq />
           </div>
         </main>
       </div>

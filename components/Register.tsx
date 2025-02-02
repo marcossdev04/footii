@@ -133,7 +133,7 @@ export function Register({ text }: Props) {
         </DialogClose>
         <DialogHeader className="text-center flex justify-center flex-col space-y-0">
           <div className="mx-auto pl-3 rounded-full">
-            <Image alt="logo" src={logo} className="w-14" />
+            <Image alt="logo" src={logo} className="w-10" />
           </div>
           <DialogTitle className="text-2xl font-bai-bold">Register</DialogTitle>
         </DialogHeader>
@@ -218,7 +218,7 @@ export function Register({ text }: Props) {
                       <Lock className="absolute left-3 top-2 h-5 w-5 text-gray-400" />
                       <Input
                         type={showPassword ? 'text' : 'password'}
-                        className="bg-white/5   pl-10"
+                        className="bg-white/5 pl-10"
                         {...field}
                       />
                       <button

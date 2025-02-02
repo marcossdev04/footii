@@ -42,13 +42,13 @@ export function Step4({ betAmount, selectedCountry }: Props) {
         <X size={30} />
       </DialogClose>
       <div className="flex flex-col gap-3 items-center mt-5 px-2">
-        <div className="md:text-5xl text-2xl text-center font-bai-bold">
+        <div className="md:text-4xl text-xl text-center font-bai-bold">
           They say past performance{' '}
           <span className="text-emerald-500">
             doesen't guarantee future results
           </span>
         </div>
-        <div className="md:text-xl text-base text-center text-zinc-300">
+        <div className="md:text-lg text-sm text-center text-zinc-300">
           (but 3 years of consistent profits might suggest otherwise...)
         </div>
       </div>
@@ -60,7 +60,7 @@ export function Step4({ betAmount, selectedCountry }: Props) {
           >
             <div className="flex flex-col">
               <div className="flex items-center justify-between">
-                <div className="text-lg text-emerald-500 font-bai-bold">
+                <div className="text-base text-emerald-500 font-bai-bold">
                   {bet.league_name}
                 </div>
                 <div>
@@ -71,7 +71,7 @@ export function Step4({ betAmount, selectedCountry }: Props) {
                   />
                 </div>
               </div>
-              <div className="text-sm text-zinc-500">
+              <div className="text-xs text-zinc-500">
                 {new Date(bet.match_date)
                   .toLocaleDateString('pt-BR', {
                     day: '2-digit',
@@ -84,29 +84,31 @@ export function Step4({ betAmount, selectedCountry }: Props) {
               </div>
             </div>
             <div className="flex flex-col">
-              <div className="text-zinc-300 flex justify-center">Match</div>
-              <div className="text-xl flex-col items-center justify-center grid grid-cols-7">
-                <div className="col-span-3 truncate text-center">
+              <div className="text-zinc-300 text-sm flex justify-center">
+                Match
+              </div>
+              <div className="text-lg flex-col items-center justify-center grid grid-cols-7">
+                <div className="col-span-3 text-sm truncate text-center">
                   {bet.home_team}
                 </div>
-                <div className="text-sm justify-center text-zinc-300 flex">
+                <div className="text-xs justify-center text-zinc-300 flex">
                   vs
                 </div>
-                <div className="col-span-3 truncate text-center">
+                <div className="col-span-3 text-sm truncate text-center">
                   {bet.away_team}
                 </div>
               </div>
             </div>
-            <div className="flex md:flex-col justify-between">
+            <div className="flex justify-between">
               <div className="flex flex-col items-center">
-                <div className="text-zinc-300">Prediction</div>
-                <div className="text-xl">
+                <div className="text-zinc-300 text-sm">Prediction</div>
+                <div className="text-base">
                   {bet.odd_bet} {bet.odd_line}
                 </div>
               </div>
               <div className="flex flex-col items-center">
-                <div className="text-zinc-300">Profit</div>
-                <div className="text-2xl font-bai-bold text-emerald-500">
+                <div className="text-zinc-300 text-sm">Profit</div>
+                <div className="text-xl font-bai-bold text-emerald-500">
                   +$
                   {bet.profit.toFixed(3) * parseFloat(betAmount) +
                     parseFloat(betAmount)}
@@ -116,47 +118,12 @@ export function Step4({ betAmount, selectedCountry }: Props) {
           </div>
         ))}
       </div>
-      <div className="grid grid-cols-3 gap-1 md:gap-5 p-5 bg-[#253831] bg-opacity-80 border-t-2 border-emerald-500 rounded-lg">
-        <div className="flex flex-col gap-2 items-center">
-          <div className="text-zinc-200 md:text-base text-xs">Success Rate</div>
-          <div>
-            <div className="md:text-4xl text-xl text-emerald-500 md:text-start text-center">
-              62.5%
-            </div>
-            <div className="text-zinc-200 md:text-base text-xs">
-              Last 3 years
-            </div>
-          </div>
-        </div>
-        <div className="flex flex-col gap-2 items-center">
-          <div className="text-zinc-200 md:text-base text-xs">Average ODDS</div>
-          <div>
-            <div className="md:text-4xl text-xl text-center md:text-start text-emerald-500">
-              1.92
-            </div>
-            <div className="text-zinc-200 md:text-base text-xs">
-              All Markets
-            </div>
-          </div>
-        </div>
-        <div className="flex flex-col gap-2 items-center">
-          <div className="text-zinc-200 md:text-base text-xs">ROI</div>
-          <div>
-            <div className="md:text-4xl text-xl text-emerald-500 text-center md:text-start">
-              +15.2%
-            </div>
-            <div className="text-zinc-200 md:text-base text-xs">
-              Monthly Average
-            </div>
-          </div>
-        </div>
-      </div>
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-2">
-          <div className="text-3xl text-emerald-500 text-center">
+          <div className="text-2xl text-emerald-500 text-center">
             Past performance doesn't guarantee future results...
           </div>
-          <div className="text-zinc-300 text-2xl text-center">
+          <div className="text-zinc-300 text-xl text-center">
             But why not find out for yourself?
           </div>
         </div>
@@ -171,7 +138,7 @@ export function Step4({ betAmount, selectedCountry }: Props) {
               <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
               <div>Encrypted</div>
               <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
-              <div>No credit card required</div>
+              <div>No payment required</div>
             </div>
           </div>
         </div>
